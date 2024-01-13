@@ -13,13 +13,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem_2023;
 
-public class Intake_Pickup extends CommandBase {
+public class Intake_Pickup_2023 extends CommandBase {
 
-    private final IntakeSubsystem m_intake;
+    private final IntakeSubsystem_2023 m_intake;
 
-    public Intake_Pickup(IntakeSubsystem subsystem) {
+    public Intake_Pickup(IntakeSubsystem_2023 subsystem) {
 
         m_intake = subsystem;
         addRequirements(m_intake);
