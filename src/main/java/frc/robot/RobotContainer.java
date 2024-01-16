@@ -19,6 +19,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Intake_Eject_2023;
+import frc.robot.commands.Intake_Pickup_2023;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem_2023;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,6 +44,7 @@ public class RobotContainer {
   XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
   //Raise/Lower commands
   private final Command intakeEjectCommand = new Intake_Eject_2023(m_intake);
+  private final Command intakePickupCommand = new Intake_Pickup_2023(m_intake);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -82,6 +84,7 @@ public class RobotContainer {
             // Setting intake button
             // Adds eject commans
     new JoystickButton(m_operatorController, Button.kR1.value).whileTrue(intakeEjectCommand);
+    new JoystickButton(m_operatorController, Button.kR2.value).whileTrue(intakePickupCommand);
   }
 
   /**
@@ -130,6 +133,7 @@ public class RobotContainer {
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
   }
   */
+  // Placeholder return value
   return intakeEjectCommand;
 }
 }
