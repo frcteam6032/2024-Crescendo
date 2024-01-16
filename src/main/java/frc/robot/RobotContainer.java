@@ -84,7 +84,7 @@ public class RobotContainer {
             // Setting intake button
             // Adds eject commans
     new JoystickButton(m_operatorController, Button.kR1.value).whileTrue(intakeEjectCommand);
-    new JoystickButton(m_operatorController, Button.kR2.value).whileTrue(intakePickupCommand);
+    new JoystickButton(m_operatorController, Button.kL1.value).whileTrue(intakePickupCommand);
   }
 
   /**
