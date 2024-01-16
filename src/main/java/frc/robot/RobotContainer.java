@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Intake_Eject_2023;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem_2023;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -34,10 +36,13 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final IntakeSubsystem_2023 m_intake = new IntakeSubsystem_2023();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-
+  XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  //Raise/Lower commands
+  private final Command intakeEjectCommand = new Intake_Eject_2023(m_intake);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -72,6 +77,9 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+            // Setting intake button
+            // Adds eject commans
+    new JoystickButton(m_operatorController, Button.kR2.value).whileTrue(intakeEjectCommand);
   }
 
   /**
