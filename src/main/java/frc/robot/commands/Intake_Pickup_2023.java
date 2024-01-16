@@ -12,18 +12,16 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem_2023;
 
-public class Intake_Pickup_2023 extends CommandBase {
+public class Intake_Pickup_2023 extends Command {
 
     private final IntakeSubsystem_2023 m_intake;
 
-    public Intake_Pickup(IntakeSubsystem_2023 subsystem) {
-
+    public Intake_Pickup_2023(IntakeSubsystem_2023 subsystem) {
         m_intake = subsystem;
         addRequirements(m_intake);
-
     }
 
     // Called when the command is initially scheduled.
