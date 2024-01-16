@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  // private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem_2023 m_intake = new IntakeSubsystem_2023();
 
   // The driver's controller
@@ -51,7 +51,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
+   /*m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
@@ -61,6 +61,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
+            */
   }
 
   /**
@@ -73,13 +74,14 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
+  /*  new JoystickButton(m_driverController, Button.kR1.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+            */
             // Setting intake button
             // Adds eject commans
-    new JoystickButton(m_operatorController, Button.kR2.value).whileTrue(intakeEjectCommand);
+    new JoystickButton(m_operatorController, Button.kR1.value).whileTrue(intakeEjectCommand);
   }
 
   /**
@@ -88,7 +90,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Create config for trajectory
+    /*// Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -127,4 +129,7 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
   }
+  */
+  return intakeEjectCommand;
+}
 }
