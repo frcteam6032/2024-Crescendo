@@ -62,6 +62,8 @@ public final class Constants {
     public static final int kRearLeftTurningCanId = 7;
     public static final int kRearRightTurningCanId = 8;
 
+    //TODO: Confirm Pigeon Gyro CAN ID and Orientation
+    public static final int kGyroCanId = 20; //TODO Set Pigeon CAN ID
     public static final boolean kGyroReversed = false;
   }
 
