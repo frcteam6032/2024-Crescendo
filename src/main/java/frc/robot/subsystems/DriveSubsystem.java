@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;  //TODO: Change to Pigeon Gy
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.sensors.PigeonIMU;
+
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -43,7 +45,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   //TODO: Change to Pigeon Gyro
   // The gyro sensor
-  private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+ // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+  private final PigeonIMU m_gyro = new PigeonIMU(0); // Pigeon is on CAN Bus with device ID 0
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -57,7 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
-      Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),  //TODO: Change to Pigeon Gyro
+      Rotation2d.fromDegrees(m_gyro.getYaw()),  //TODO: Change to Pigeon Gyro
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -73,7 +76,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),  //TODO: Change to Pigeon Gyro
+        Rotation2d.fromDegrees(m_gyro.getYaw()),  //TODO: Change to Pigeon Gyro
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -98,7 +101,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),  //TODO: Change to Pigeon Gyro
+        Rotation2d.fromDegrees(m_gyro.getYaw()),  //TODO: Change to Pigeon Gyro
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -178,15 +181,15 @@ public class DriveSubsystem extends SubsystemBase {
 
     //TODO: Change to Pigeon Gyro for fieldRelative=True case
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+      fieldRelative
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(m_gyro.getYaw()))
+        : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
+      (SwerveModuleState[]) swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    m_frontLeft.setDesiredState(((SwerveModuleState[]) swerveModuleStates)[0]);
+    m_frontRight.setDesiredState(((SwerveModuleState[]) swerveModuleStates)[1]);
+    m_rearLeft.setDesiredState(((SwerveModuleState[]) swerveModuleStates)[2]);
+    m_rearRight.setDesiredState(((SwerveModuleState[]) swerveModuleStates)[3]);
   }
 
   /**
@@ -223,7 +226,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_gyro.reset();
+    m_gyro.setYaw(0.0);
   }
 
   /**
@@ -231,16 +234,8 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
-  public double getHeading() {
-    return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();  //TODO: Change to Pigeon Gyro
-  }
-
-  /**
-   * Returns the turn rate of the robot.
-   *
-   * @return The turn rate of the robot, in degrees per second
-   */
   public double getTurnRate() {
-    return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);  //TODO: Change to Pigeon Gyro
+    // return m_gyro.getRate(PigeonStateRate.kYaw) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);  //TODO: Change to Pigeon Gyro
+    return 0;
   }
 }
