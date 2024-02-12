@@ -88,14 +88,19 @@ public class Robot extends TimedRobot {
     }
   }
 
-    GenericEntry rangeOnboardEntry = Shuffleboard.getTab("My Limelight Sensor")
+    GenericEntry rangeOnboardEntry = Shuffleboard.getTab("Limelight Sensor")
   .add("LimeX", 0)
   .getEntry();
+   GenericEntry rangeOnboardEntry2 = Shuffleboard.getTab("Limelight Sensor")
+  .add("Target Found", false)
+  .getEntry();
+
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     rangeOnboardEntry.setDouble(m_robotContainer.getLimelightX());
+    rangeOnboardEntry2.setBoolean(m_robotContainer.targetValid());
   }
 
   @Override

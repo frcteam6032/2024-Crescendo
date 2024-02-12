@@ -100,9 +100,6 @@ public double getLimelightX() {
     return m_limelight.getTX();
 }
 
-public double getLimelightY() {
-    return m_limelight.getTY();
-}
 
 public boolean targetValid() {
     return m_limelight.isTargetValid();
