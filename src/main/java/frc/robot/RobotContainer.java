@@ -18,7 +18,13 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ComputerAlign;
+import frc.robot.commands.IntakePickup;
+import frc.robot.commands.ScoreAmp;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -34,15 +40,23 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
- // private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final VisionSubsystem m_limelight = new VisionSubsystem();
+  private final IntakeSubsystem m_intake = new IntakeSubsystem();
+  private final ShooterSubsystem m_shooter = new ShooterSubsystem();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  VisionSubsystem m_limelight = new VisionSubsystem();
+  private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+    private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
 
+  private final Command ComputerAligner = new ComputerAlign(m_robotDrive, m_limelight);
+  private final Command Pickup = new IntakePickup();
+  private final Command Shoot = new Shoot();
+  private final Command AmpScore = new ScoreAmp();
 
 
   public RobotContainer() {
@@ -50,7 +64,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-   /* m_robotDrive.setDefaultCommand(
+    m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
@@ -59,7 +73,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
-            m_robotDrive));*/
+            m_robotDrive));
   }
 
   /**
@@ -72,10 +86,13 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-   /*new JoystickButton(m_driverController, Button.kR1.value)
+    // Quick stop
+   new JoystickButton(m_driverController, Button.kR1.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
-            m_robotDrive));*/
+            m_robotDrive));
+
+    new JoystickButton(m_driverController,  Button.kR2.value).whileTrue(ComputerAligner);
   }
 
 
@@ -83,6 +100,13 @@ public double getLimelightX() {
     return m_limelight.getTX();
 }
 
+public double getLimelightY() {
+    return m_limelight.getTY();
+}
+
+public boolean targetValid() {
+    return m_limelight.isTargetValid();
+}
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
