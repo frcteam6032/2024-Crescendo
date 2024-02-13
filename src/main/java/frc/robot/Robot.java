@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
   }
 
     GenericEntry rangeOnboardEntry = Shuffleboard.getTab("Limelight Sensor")
-  .add("LimeX", 0)
+  .add("Target X Offset", 0)
   .getEntry();
    GenericEntry rangeOnboardEntry2 = Shuffleboard.getTab("Limelight Sensor")
   .add("Target Found", false)
