@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
@@ -54,8 +55,8 @@ public class RobotContainer {
    */
 
   private final Command ComputerAligner = new ComputerAlign(m_robotDrive, m_limelight);
-  private final Command Pickup = new IntakePickup();
-  private final Command Shoot = new Shoot();
+  private final Command Pickup = new IntakePickup(m_intake);
+  private final Command Shoot = new Shoot(m_shooter);
   private final Command AmpScore = new ScoreAmp();
 
 
@@ -93,6 +94,10 @@ public class RobotContainer {
             m_robotDrive));
 
     new JoystickButton(m_driverController,  Button.kR2.value).whileTrue(ComputerAligner);
+    new JoystickButton(m_operatorController, Button.kL3.value).whileTrue(Pickup);
+    new JoystickButton(m_operatorController, Button.kR3.value).whileTrue(Shoot);
+    new JoystickButton(m_operatorController, Button.kR2.value).whileTrue(AmpScore);
+
   }
 
 
