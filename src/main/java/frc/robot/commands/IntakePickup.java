@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakePickup extends Command {
-
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    private final int runTime = 1000;
     private final IntakeSubsystem m_intake;
 
     public IntakePickup(IntakeSubsystem subsystem) {
@@ -31,12 +32,24 @@ public class IntakePickup extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // We are going to have a distance sensor to automatically take in the rings
+
+        // First we will put the intake wheels in reverse to take in the ring
+
+        // IF we find a ring, we will do the following  process
+
+        // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
+
+        // Then we will put the intake wheels back into the origional position 
+    
         //m_intake.set_speed(0.53);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+
+        // Here we will stop the intake wheels
         m_intake.set_speed(0);
     }
 
