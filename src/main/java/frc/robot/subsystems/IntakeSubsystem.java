@@ -11,13 +11,13 @@ private PWMSparkMax motorController2;
 
     public IntakeSubsystem() {
  
-motorController1 = new PWMSparkMax(0);
- addChild("Motor Controller 1",motorController1);
- motorController1.setInverted(false); // Keeping left motor rotation the same
+    motorController1 = new PWMSparkMax(0);
+    addChild("Motor Controller 1",motorController1);
+    motorController1.setInverted(false); // Keeping left motor rotation the same
 
-motorController2 = new PWMSparkMax(1);
- addChild("Motor Controller 2",motorController2);
- motorController2.setInverted(true); // Inverting right motor rotation to intake objects
+    motorController2 = new PWMSparkMax(1);
+    addChild("Motor Controller 2",motorController2);
+    motorController2.setInverted(true); // Inverting right motor rotation to intake objects
 
     }
 

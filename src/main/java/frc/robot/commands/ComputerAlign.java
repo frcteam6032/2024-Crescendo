@@ -3,10 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.mathHelpers.trig;
 public class ComputerAlign extends Command {
     private final VisionSubsystem m_visionSubsystem;
     private final DriveSubsystem m_drivetrainSubsystem;
-
+    private trig angleToTarget;
 
     public ComputerAlign(DriveSubsystem drivetrainSubsystem, VisionSubsystem visionSubsystem) {
         this.m_drivetrainSubsystem = drivetrainSubsystem;
@@ -18,6 +19,8 @@ public class ComputerAlign extends Command {
     //TODO make sure we add the gyro to this command
     @Override
     public void execute() {
+        angleToTarget = new trig();
+        angleToTarget.calcuateAngle(m_visionSubsystem.getTX(), m_visionSubsystem.getTY());
         // If we're to the left
         if (m_visionSubsystem.isTargetValid() == true) {
         // If were to the left, drive right

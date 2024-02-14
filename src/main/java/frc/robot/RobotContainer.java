@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.VisionSubsystem;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class RobotContainer {
 
   // The driver's controller
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-    private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -57,7 +58,7 @@ public class RobotContainer {
   private final Command ComputerAligner = new ComputerAlign(m_robotDrive, m_limelight);
   private final Command Pickup = new IntakePickup(m_intake);
   private final Command Shoot = new Shoot(m_shooter);
-  private final Command AmpScore = new ScoreAmp();
+  private final Command AmpScore = new ScoreAmp(m_shooter);
 
 
   public RobotContainer() {
@@ -87,24 +88,28 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Setting up driver commands
     // Quick stop
    new JoystickButton(m_driverController, Button.kR1.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-
-    new JoystickButton(m_driverController,  Button.kR2.value).whileTrue(ComputerAligner);
-    new JoystickButton(m_operatorController, Button.kL3.value).whileTrue(Pickup);
-    new JoystickButton(m_operatorController, Button.kR3.value).whileTrue(Shoot);
-    new JoystickButton(m_operatorController, Button.kR2.value).whileTrue(AmpScore);
-
+    new Trigger(m_driverController::getRightBumper).whileTrue(ComputerAligner);
+    // Setting up operator controls
+    new Trigger(m_operatorController::getLeftBumper).whileTrue(Pickup);
+    new Trigger(m_operatorController::getRightBumper).whileTrue(Shoot);
+    new Trigger(m_operatorController::getYButton).whileTrue(AmpScore);
   }
 
 
+// Setting up methods for the robot.java class to use to display information to the shuffleboard
 public double getLimelightX() {
     return m_limelight.getTX();
 }
 
+public double getLimelightY() {
+    return m_limelight.getTY();
+}
 
 public boolean targetValid() {
     return m_limelight.isTargetValid();

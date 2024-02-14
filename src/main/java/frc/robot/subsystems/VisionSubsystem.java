@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionSubsystem extends SubsystemBase {
   private final NetworkTable m_limelightTable;
-  private double tv, tx, ta;
+  private double tv, tx, ta, ty;
   private ArrayList<Double> m_targetList;
   private final int MAX_ENTRIES = 50;
   private final NetworkTableEntry m_led_entry;
@@ -37,7 +37,7 @@ public class VisionSubsystem extends SubsystemBase {
     tv = m_limelightTable.getEntry("tv").getDouble(0);
     tx = m_limelightTable.getEntry("tx").getDouble(0);
     ta = m_limelightTable.getEntry("ta").getDouble(0);
-
+    ty = m_limelightTable.getEntry("ty").getDouble(0);
 
     if (m_targetList.size() >= MAX_ENTRIES) {
       m_targetList.remove(0);
@@ -47,6 +47,10 @@ public class VisionSubsystem extends SubsystemBase {
 
   public double getTX() {
     return tx;
+  }
+
+  public double getTY() {
+    return ty;
   }
 
   public double getTA() {

@@ -31,7 +31,7 @@ public class Shoot extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // TODO Find the correct speed for the shooter to shoot for the amp
+        // TODO Find the correct speed for the shooter to shoot for the speaker
         m_shooter.set_speed(0.53);
     }
 

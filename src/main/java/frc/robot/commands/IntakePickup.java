@@ -19,7 +19,7 @@ public class IntakePickup extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
     private final int runTime = 1000;
     private final IntakeSubsystem m_intake;
-
+    private boolean ringDetected = false;
     public IntakePickup(IntakeSubsystem subsystem) {
         m_intake = subsystem;
         addRequirements(m_intake);
@@ -41,8 +41,24 @@ public class IntakePickup extends Command {
         // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
 
         // Then we will put the intake wheels back into the origional position 
-    
-        //m_intake.set_speed(0.53);
+        if (ringDetected == true) {
+            m_intake.set_speed(0.53);
+            try {
+                Thread.sleep(runTime);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            m_intake.set_speed(-0.53);
+            ringDetected = false;
+            try {
+                Thread.sleep(runTime);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            m_intake.set_speed(0);
+        }
     }
 
     // Called once the command ends or is interrupted.
