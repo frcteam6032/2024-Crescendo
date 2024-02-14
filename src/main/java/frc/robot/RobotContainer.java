@@ -72,6 +72,10 @@ public class RobotContainer {
     // Add commands to the autonomous command chooser
         m_chooser.setDefaultOption("No Auto", null);
         m_chooser.addOption("Leave Auto", null);
+        m_chooser.addOption("Score AMP", null);
+        m_chooser.addOption("Score AMP & Leave", null);
+        m_chooser.addOption("Score Speaker", null);
+
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Competition")
