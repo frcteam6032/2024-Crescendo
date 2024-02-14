@@ -53,14 +53,6 @@ public class VisionSubsystem extends SubsystemBase {
     return ty;
   }
 
-  public boolean isAligned() {
-    if (tx < 1.0 && tx > -1.0) {
-      aligned = true;
-    } else {
-      aligned = false;
-    }
-    return aligned;
-  }
 
   public double getTA() {
     double sum = 0;
@@ -77,5 +69,18 @@ public class VisionSubsystem extends SubsystemBase {
 
   public void setLlLedMode(int mode){
     m_led_entry.setDouble((mode));
+  }
+
+
+    public boolean isAligned() {
+      // Making sure we actually have a target
+    if (isTargetValid() == true) {
+    if (tx < 1.0 && tx > -1.0) {
+      aligned = true;
+    } else {
+      aligned = false;
+    }
+  }
+    return aligned;
   }
 }
