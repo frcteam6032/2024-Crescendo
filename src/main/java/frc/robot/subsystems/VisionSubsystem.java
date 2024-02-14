@@ -20,7 +20,7 @@ public class VisionSubsystem extends SubsystemBase {
   private ArrayList<Double> m_targetList;
   private final int MAX_ENTRIES = 50;
   private final NetworkTableEntry m_led_entry;
-
+  private boolean aligned = false;
 
   /**
    * Creates a new Vision.
@@ -51,6 +51,15 @@ public class VisionSubsystem extends SubsystemBase {
 
   public double getTY() {
     return ty;
+  }
+
+  public boolean isAligned() {
+    if (tx < 1.0 && tx > -1.0) {
+      aligned = true;
+    } else {
+      aligned = false;
+    }
+    return aligned;
   }
 
   public double getTA() {

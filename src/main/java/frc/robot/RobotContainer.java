@@ -15,6 +15,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -60,10 +62,23 @@ public class RobotContainer {
   private final Command Shoot = new Shoot(m_shooter);
   private final Command AmpScore = new ScoreAmp(m_shooter);
 
+  SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+
+    // Add commands to the autonomous command chooser
+        m_chooser.setDefaultOption("No Auto", null);
+        m_chooser.addOption("Leave Auto", null);
+
+        // Put the chooser on the dashboard
+        Shuffleboard.getTab("Competition")
+            .add("Auto Chooser", m_chooser)
+            .withPosition(6, 3)
+            .withSize(2, 1);
+
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -111,6 +126,10 @@ public double getLimelightY() {
     return m_limelight.getTY();
 }
 
+public boolean isRobotAligned() {
+    return m_limelight.isAligned();
+}
+
 public boolean targetValid() {
     return m_limelight.isTargetValid();
 }
@@ -120,7 +139,8 @@ public boolean targetValid() {
    * @return the command to run in autonomous
    */
 
- // public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
     /*
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
@@ -160,6 +180,7 @@ public boolean targetValid() {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false)); */
+     }
   }
   
 

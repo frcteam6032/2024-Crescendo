@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
 
   /**
@@ -58,6 +60,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     /*
@@ -88,6 +93,7 @@ public class Robot extends TimedRobot {
     }
   }
 
+    // Limelight debug
     GenericEntry rangeOnboardEntry = Shuffleboard.getTab("Limelight Sensor")
   .add("Target X Offset", 0)
   .getEntry();
@@ -95,12 +101,16 @@ public class Robot extends TimedRobot {
   .add("Target Found", false)
   .getEntry();
 
-
+  // Competition tab
+  GenericEntry targetFound = Shuffleboard.getTab("Competition").add("Ready To Align", false).getEntry();
+  GenericEntry robotAligned = Shuffleboard.getTab("Competition").add("Robot Aligned", false).getEntry();
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     rangeOnboardEntry.setDouble(m_robotContainer.getLimelightX());
     rangeOnboardEntry2.setBoolean(m_robotContainer.targetValid());
+    targetFound.setBoolean(m_robotContainer.targetValid());
+    robotAligned.setBoolean(m_robotContainer.isRobotAligned());
   }
 
   @Override
