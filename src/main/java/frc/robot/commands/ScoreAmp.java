@@ -32,7 +32,7 @@ public class ScoreAmp extends Command {
     @Override
     public void execute() {
         // TODO Find the correct speed for the shooter to shoot for the amp
-        m_shooter.set_speed(0.33);
+        m_shooter.set_speed(0.2);
     }
 
     // Called once the command ends or is interrupted.

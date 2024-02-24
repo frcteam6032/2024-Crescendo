@@ -7,7 +7,6 @@ import frc.robot.mathHelpers.Trigonometry;
 public class ComputerAlign extends Command {
     private final VisionSubsystem m_visionSubsystem;
     private final DriveSubsystem m_drivetrainSubsystem;
-    private Trigonometry angleToTarget;
 
     public ComputerAlign(DriveSubsystem drivetrainSubsystem, VisionSubsystem visionSubsystem) {
         this.m_drivetrainSubsystem = drivetrainSubsystem;
@@ -17,18 +16,20 @@ public class ComputerAlign extends Command {
     }
 
     //TODO make sure we add the gyro to this command
+
+    // AKA our C.A.S.S (computer assisted semi-alignment system)
     @Override
     public void execute() {
-        angleToTarget = new Trigonometry();
-        angleToTarget.calcuateAngle(m_visionSubsystem.getTX(), m_visionSubsystem.getTY());
+        // Calculate the angle to the target
+        double angle = Trigonometry.calcuateAngle(m_visionSubsystem.getTX(), m_visionSubsystem.getTY());
         // If we're to the left
         if (m_visionSubsystem.isTargetValid() == true) {
         // If were to the left, drive right
-        if (m_visionSubsystem.getTX() < 0)  {
+        if (m_visionSubsystem.getTX() < 1.2 && angle > Trigonometry.calculateAllowedDeviationAngle(angle)){
             m_drivetrainSubsystem.drive(0.8, 0.0, 0.0, false, false);
         }
         // If we're to the right, drive left
-        else if (m_visionSubsystem.getTX() > 0) {
+        else if (m_visionSubsystem.getTX() > 1.2 && angle < Trigonometry.calculateAllowedDeviationAngle(angle)) {
             m_drivetrainSubsystem.drive(-0.8, 0.0, 0.0, false, false);
         }
     

@@ -42,14 +42,14 @@ public class IntakePickup extends Command {
 
         // Then we will put the intake wheels back into the origional position 
         if (ringDetected == true) {
-            m_intake.set_speed(0.53);
+            m_intake.set_speed(0.2);
             try {
                 Thread.sleep(runTime);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            m_intake.set_speed(-0.53);
+            m_intake.set_speed(-0.2);
             ringDetected = false;
             try {
                 Thread.sleep(runTime);
