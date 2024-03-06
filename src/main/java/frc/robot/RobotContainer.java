@@ -22,11 +22,15 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ComputerAlign;
-import frc.robot.commands.IntakePickup;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
+import frc.robot.commands.IntakePickupArmDown;
+import frc.robot.commands.IntakePickupArmUp;
 import frc.robot.commands.ScoreAmp;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeWheels;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -48,6 +52,8 @@ public class RobotContainer {
   private final VisionSubsystem m_limelight = new VisionSubsystem();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+  private final IntakeWheels m_wheels = new IntakeWheels();
+
 
   // The driver's controller
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -58,9 +64,14 @@ public class RobotContainer {
    */
 
   private final Command ComputerAligner = new ComputerAlign(m_robotDrive, m_limelight);
-  private final Command Pickup = new IntakePickup(m_intake);
+  private final Command PickupUp = new IntakePickupArmUp(m_intake);
+  private final Command PickupDown = new IntakePickupArmDown(m_intake);
   private final Command Shoot = new Shoot(m_shooter);
   private final Command AmpScore = new ScoreAmp(m_shooter);
+  private final Command IntakeWeelsIn = new IntakeIn(m_wheels);
+  private final Command IntakeWeelsOut = new IntakeOut(m_wheels);
+
+
 
   SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
@@ -115,9 +126,13 @@ public class RobotContainer {
             m_robotDrive));
     new Trigger(m_driverController::getRightBumper).whileTrue(ComputerAligner);
     // Setting up operator controls
-    new Trigger(m_operatorController::getLeftBumper).whileTrue(Pickup);
-    new Trigger(m_operatorController::getRightBumper).whileTrue(Shoot);
+    new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupUp);
+    new Trigger(m_operatorController::getRightBumper).whileTrue(PickupDown);
+    new Trigger(m_operatorController::getBButton).whileTrue(Shoot);
     new Trigger(m_operatorController::getYButton).whileTrue(AmpScore);
+    new Trigger(m_operatorController::getAButton).whileTrue(IntakeWeelsIn);
+    new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
+
   }
 
 

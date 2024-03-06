@@ -13,16 +13,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeWheels;
 
-public class IntakePickup extends Command {
+public class IntakeOut extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
-    private final int runTime = 1000;
-    private final IntakeSubsystem m_intake;
-    private boolean ringDetected = false;
-    public IntakePickup(IntakeSubsystem subsystem) {
-        m_intake = subsystem;
-        addRequirements(m_intake);
+    private final IntakeWheels m_intakeWheels;
+    public IntakeOut(IntakeWheels subsystem) {
+        m_intakeWheels = subsystem;
+        addRequirements(m_intakeWheels);
     }
 
     // Called when the command is initially scheduled.
@@ -40,25 +38,7 @@ public class IntakePickup extends Command {
 
         // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
 
-        // Then we will put the intake wheels back into the origional position 
-        if (ringDetected == true) {
-            m_intake.set_speed(0.2);
-            try {
-                Thread.sleep(runTime);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            m_intake.set_speed(-0.2);
-            ringDetected = false;
-            try {
-                Thread.sleep(runTime);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            m_intake.set_speed(0);
-        }
+       m_intakeWheels.set_speed(0.5);
     }
 
     // Called once the command ends or is interrupted.
@@ -66,7 +46,7 @@ public class IntakePickup extends Command {
     public void end(boolean interrupted) {
 
         // Here we will stop the intake wheels
-        m_intake.set_speed(0);
+        m_intakeWheels.set_speed(0);
     }
 
     // Returns true when the command should end.

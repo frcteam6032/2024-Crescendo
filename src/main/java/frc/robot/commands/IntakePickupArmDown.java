@@ -13,15 +13,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class Shoot extends Command {
-
-    private final ShooterSubsystem m_shooter;
-
-    public Shoot(ShooterSubsystem subsystem) {
-        m_shooter = subsystem;
-        addRequirements(m_shooter);
+public class IntakePickupArmDown extends Command {
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    private final IntakeSubsystem m_intake;
+    public IntakePickupArmDown(IntakeSubsystem subsystem) {
+        m_intake = subsystem;
+        addRequirements(m_intake);
     }
 
     // Called when the command is initially scheduled.
@@ -31,14 +30,23 @@ public class Shoot extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // TODO Find the correct speed for the shooter to shoot for the speaker
-        m_shooter.set_speed(0.5);
+        // We are going to have a distance sensor to automatically take in the rings
+
+        // First we will put the intake wheels in reverse to take in the ring
+
+        // IF we find a ring, we will do the following  process
+
+        // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
+
+       m_intake.set_speed(0.1);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_shooter.set_speed(0);
+
+        // Here we will stop the intake wheels
+        m_intake.set_speed(0);
     }
 
     // Returns true when the command should end.

@@ -4,26 +4,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class IntakeWheels extends SubsystemBase {
 
 private PWMSparkMax motorController1;
-private PWMSparkMax motorController2;
 
-    public ShooterSubsystem() {
+    public IntakeWheels() {
  
-motorController1 = new PWMSparkMax(2);
- addChild("Motor Controller 3",motorController1);
- motorController1.setInverted(true); // Keeping left motor rotation the same
+    motorController1 = new PWMSparkMax(4);
+    addChild("Motor Controller 4",motorController1);
+    motorController1.setInverted(false); // Keeping left motor rotation the same
 
-motorController2 = new PWMSparkMax(3);
- addChild("Motor Controller 3",motorController2);
- motorController2.setInverted(false); // Inverting right motor rotation to intake objects
+
 
     }
 
     public void set_speed(double value){
         motorController1.set(value);
-        motorController2.set(value);
     }
 
     @Override
