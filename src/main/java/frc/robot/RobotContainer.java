@@ -120,18 +120,18 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Setting up driver commands
     // Quick stop
-   new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
-    new Trigger(m_driverController::getRightBumper).whileTrue(ComputerAligner);
-    // Setting up operator controls
-    new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupUp);
-    new Trigger(m_operatorController::getRightBumper).whileTrue(PickupDown);
-    new Trigger(m_operatorController::getBButton).whileTrue(Shoot);
-    new Trigger(m_operatorController::getYButton).whileTrue(AmpScore);
-    new Trigger(m_operatorController::getAButton).whileTrue(IntakeWeelsIn);
-    new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
+new JoystickButton(m_driverController, Button.kR1.value)
+    .whileTrue(new RunCommand(
+        () -> m_robotDrive.setX(),
+        m_robotDrive));
+new Trigger(m_driverController::getRightBumper).whileTrue(ComputerAligner);
+// Setting up operator controls
+new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
+new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);
+new Trigger(m_operatorController::getBButton).whileTrue(Shoot);
+new Trigger(m_operatorController::getYButton).whileTrue(AmpScore);
+new Trigger(m_operatorController::getAButton).whileTrue(IntakeWeelsIn);
+new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
 
   }
 
@@ -151,6 +151,11 @@ public boolean isRobotAligned() {
 
 public boolean targetValid() {
     return m_limelight.isTargetValid();
+}
+
+
+public double getArmAngle() {
+    return m_intake.getAngle();  
 }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

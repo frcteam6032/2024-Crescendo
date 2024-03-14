@@ -13,6 +13,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakePickupArmUp extends Command {
@@ -38,7 +39,10 @@ public class IntakePickupArmUp extends Command {
 
         // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
 
-        m_intake.set_speed(-0.1);
+      // if (m_intake.getAngle() < Constants.ArmConstants.max_limit) {
+              //System.out.println("[Command] IntakePickupArmUp: Setting speed to 0.3");
+         m_intake.set_speed(0.4);
+        //}
     }
     
     // Called once the command ends or is interrupted.

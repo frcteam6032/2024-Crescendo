@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  //private IntakeSubsystem m_intake;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -32,6 +34,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    //m_intake.getArmParamaters();
+    
   }
 
   /**
@@ -100,6 +104,9 @@ public class Robot extends TimedRobot {
    GenericEntry rangeOnboardEntry2 = Shuffleboard.getTab("Limelight Sensor")
   .add("Target Found", false)
   .getEntry();
+   GenericEntry rangeOnboardEntry3 = Shuffleboard.getTab("Limelight Sensor")
+  .add("Arm Angle", 0)
+  .getEntry();
 
   // Competition tab
   GenericEntry targetFound = Shuffleboard.getTab("Competition").add("Ready To Align", false).getEntry();
@@ -111,6 +118,7 @@ public class Robot extends TimedRobot {
     rangeOnboardEntry2.setBoolean(m_robotContainer.targetValid());
     targetFound.setBoolean(m_robotContainer.targetValid());
     robotAligned.setBoolean(m_robotContainer.isRobotAligned());
+    rangeOnboardEntry3.setDouble(m_robotContainer.getArmAngle());
   }
 
   @Override

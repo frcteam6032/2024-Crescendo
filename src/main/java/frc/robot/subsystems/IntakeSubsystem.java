@@ -2,29 +2,71 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-private PWMSparkMax motorController1;
-private PWMSparkMax motorController2;
+private CANSparkMax  motorController1;
+private CANSparkMax  motorController2;
+private DutyCycleEncoder m_DutyCycleEncoder;
 
     public IntakeSubsystem() {
- 
-    motorController1 = new PWMSparkMax(0);
-    addChild("Motor Controller 1",motorController1);
-    motorController1.setInverted(false); // Keeping left motor rotation the same
+        m_DutyCycleEncoder = new DutyCycleEncoder(0);
+        motorController1 = new CANSparkMax(9, MotorType.kBrushless);
+        motorController1.setInverted(true);
+        motorController2 = new CANSparkMax(10, MotorType.kBrushless);
+        motorController2.setInverted(false);
+        motorController1.setIdleMode(IdleMode.kBrake);
+        motorController2.setIdleMode(IdleMode.kBrake);
+        m_DutyCycleEncoder.reset();
+    }   
 
-    motorController2 = new PWMSparkMax(1);
-    addChild("Motor Controller 2",motorController2);
-    motorController2.setInverted(true); // Inverting right motor rotation to intake objects
-
+     // New number system, called rodegrees (robot degrees) such that the max limit is 180
+    // Actaully dont mind the above comment dave insists on using the pivot oft the arm as the orign.
+        public double getAngle() { 
+        return m_DutyCycleEncoder.get() * 120;
     }
+
 
     public void set_speed(double value){
+       System.out.println("Attempting to set speed: Value" + "[" + value + "]");
+        System.out.println("Current Angle: " + getAngle());
+
+        if (value > 0 && getAngle() < Constants.ArmConstants.max_limit) {
+            System.out.println("Setting speed Positive [full] (up)");
+
+            // Arm trying to go up
+            if (Constants.ArmConstants.max_limit - getAngle() < 30) {
+                //Arm is close to max limit
+                System.out.println("Setting speed Positive [reduced] (up)");
+                motorController1.set(0.1);
+                motorController2.set(0.1);
+            }
+            else {
+                //Arm is not close to max limit
+                motorController1.set(value);
+                motorController2.set(value);
+            }
+        }
+        else if (value < 0 && getAngle() > Constants.ArmConstants.min_limit) {
+        System.out.println("Setting speed Negative (down)");
         motorController1.set(value);
         motorController2.set(value);
+        }
+        else {
+            motorController1.set(0);
+            motorController2.set(0);
+        }
+
     }
+    
 
     @Override
     public void periodic() {
@@ -38,6 +80,8 @@ private PWMSparkMax motorController2;
 
     }
 
+   
+   
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 

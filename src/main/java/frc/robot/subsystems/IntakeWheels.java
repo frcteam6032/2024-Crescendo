@@ -2,19 +2,20 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public class IntakeWheels extends SubsystemBase {
 
-private PWMSparkMax motorController1;
+private CANSparkMax motorController1;
 
     public IntakeWheels() {
  
-    motorController1 = new PWMSparkMax(4);
-    addChild("Motor Controller 4",motorController1);
+    motorController1 = new CANSparkMax(13, MotorType.kBrushless);
     motorController1.setInverted(false); // Keeping left motor rotation the same
-
-
 
     }
 
