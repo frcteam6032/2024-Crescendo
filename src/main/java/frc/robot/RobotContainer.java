@@ -28,6 +28,7 @@ import frc.robot.commands.IntakePickupArmDown;
 import frc.robot.commands.IntakePickupArmUp;
 import frc.robot.commands.ScoreAmp;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.Wench;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
@@ -38,6 +39,8 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.WenchSubsystem;
+
 import java.util.List;
 import frc.robot.commands.AutomaticIntake; // Import the missing class
 
@@ -54,6 +57,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private final IntakeWheels m_wheels = new IntakeWheels();
+  private final WenchSubsystem m_whench = new WenchSubsystem();
 
 
   // The driver's controller
@@ -72,6 +76,8 @@ public class RobotContainer {
   private final Command IntakeWeelsIn = new IntakeIn(m_wheels);
   private final Command IntakeWeelsOut = new IntakeOut(m_wheels);
   private final Command AutomaticIntake = new AutomaticIntake(m_wheels, m_intake);
+  private final Command WenchCmd = new Wench(m_whench);
+
 
 SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
@@ -82,9 +88,9 @@ SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
     // Add commands to the autonomous command chooser
         m_chooser.setDefaultOption("No Auto", null);
+        // Top one already done because there is no auto routine
         m_chooser.addOption("Leave Auto", null);
         m_chooser.addOption("Score AMP", null);
-        m_chooser.addOption("Score AMP & Leave", null);
         m_chooser.addOption("Score Speaker", null);
 
 
@@ -135,6 +141,8 @@ new Trigger(m_operatorController::getAButton).whileTrue(IntakeWeelsIn);
 new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
 // Adds automatic intake
 new Trigger(m_operatorController::getStartButton).whileTrue(AutomaticIntake);
+// Adds wench
+new Trigger(m_operatorController::getBackButton).whileTrue(WenchCmd);
 
 }
 

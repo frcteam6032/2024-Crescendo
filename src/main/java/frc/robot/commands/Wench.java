@@ -13,14 +13,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeWheels;
+import frc.robot.Constants;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.WenchSubsystem;
 
-public class IntakeIn extends Command {
+public class Wench extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
-    private final IntakeWheels m_intakeWheels;
-    public IntakeIn(IntakeWheels subsystem) {
-        m_intakeWheels = subsystem;
-        addRequirements(m_intakeWheels);
+    private final WenchSubsystem m_wench;
+    public Wench(WenchSubsystem subsystem) {
+        m_wench = subsystem;
+        addRequirements(m_wench);
     }
 
     // Called when the command is initially scheduled.
@@ -30,17 +32,15 @@ public class IntakeIn extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-    
-    
-        m_intakeWheels.set_speed(-0.5);
+         m_wench.set_speed(0.4);
     }
-
+    
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
 
         // Here we will stop the intake wheels
-        m_intakeWheels.set_speed(0);
+        m_wench.set_speed(0);
     }
 
     // Returns true when the command should end.

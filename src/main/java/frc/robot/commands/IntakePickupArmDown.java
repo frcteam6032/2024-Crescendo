@@ -31,13 +31,7 @@ public class IntakePickupArmDown extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // We are going to have a distance sensor to automatically take in the rings
 
-        // First we will put the intake wheels in reverse to take in the ring
-
-        // IF we find a ring, we will do the following  process
-
-        // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
        // if (m_intake.getAngle() > Constants.ArmConstants.min_limit) {
            // System.out.println("[Command] IntakePickupArmDown: Setting speed to -0.3");
          m_intake.set_speed(-0.1);
