@@ -105,8 +105,9 @@ private DigitalInput dioInput;
             // The DIO port is receiving low voltage
             return false;
             }
-        }
     }
+    
+
 
    
    
