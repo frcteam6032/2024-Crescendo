@@ -34,7 +34,7 @@ public class IntakePickupArmDown extends Command {
 
        // if (m_intake.getAngle() > Constants.ArmConstants.min_limit) {
            // System.out.println("[Command] IntakePickupArmDown: Setting speed to -0.3");
-         m_intake.set_speed(-0.1);
+         m_intake.set_speed(-0.4);
         //}
     }
 

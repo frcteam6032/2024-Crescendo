@@ -62,7 +62,7 @@ private DigitalInput dioInput;
         else if (value < 0 && getAngle() > Constants.ArmConstants.min_limit) {
         System.out.println("Setting speed Negative [full] (down)");
         // If the arm is near the min limit, reduce the speed
-        if (Constants.ArmConstants.min_limit - getAngle() > 30) {
+        if (getAngle() <= Constants.ArmConstants.min_limit + 30) {
                 //Arm is close to min limit
                 System.out.println("Setting speed Negative [reduced] (down)");
                 motorController1.set(-0.1);

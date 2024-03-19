@@ -36,7 +36,7 @@ public class AutomaticIntake extends Command {
     public void initialize() {
         startingTime = System.currentTimeMillis();
     }
-    private int MaxTime = 3000; //Force robot to exit this command after this much time (milliseconds)
+    private int MaxTime = 500; //Force robot to exit this command after this much time (milliseconds)
     // Called every time the scheduler runs while the command is scheduled.
 
     // This is our accurate automatic intake system A.A.I.S

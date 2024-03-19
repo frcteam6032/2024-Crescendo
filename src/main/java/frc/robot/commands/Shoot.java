@@ -30,7 +30,7 @@ public class Shoot extends Command {
     @Override
     public void initialize() {
         m_shooter.set_speed(0.8);
-        m_intakeWheels.set_speed(0.5);
+        m_intakeWheels.set_speed(-0.5);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -44,6 +44,7 @@ public class Shoot extends Command {
     @Override
     public void end(boolean interrupted) {
         m_shooter.set_speed(0);
+        m_intakeWheels.set_speed(0.0);
     }
 
     // Returns true when the command should end.

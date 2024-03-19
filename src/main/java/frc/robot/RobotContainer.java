@@ -57,7 +57,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private final IntakeWheels m_wheels = new IntakeWheels();
-  private final WenchSubsystem m_whench = new WenchSubsystem();
+  //private final WenchSubsystem m_whench = new WenchSubsystem();
 
 
   // The driver's controller
@@ -76,7 +76,7 @@ public class RobotContainer {
   private final Command IntakeWeelsIn = new IntakeIn(m_wheels);
   private final Command IntakeWeelsOut = new IntakeOut(m_wheels);
   private final Command AutomaticIntake = new AutomaticIntake(m_wheels, m_intake);
-  private final Command WenchCmd = new Wench(m_whench);
+  //private final Command WenchCmd = new Wench(m_whench);
 
 
 SendableChooser < Command > m_chooser = new SendableChooser < > ();
@@ -142,7 +142,7 @@ new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
 // Adds automatic intake
 new Trigger(m_operatorController::getStartButton).whileTrue(AutomaticIntake);
 // Adds wench
-new Trigger(m_operatorController::getBackButton).whileTrue(WenchCmd);
+//new Trigger(m_operatorController::getBackButton).whileTrue(WenchCmd);
 
 }
 

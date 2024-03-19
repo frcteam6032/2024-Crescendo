@@ -17,6 +17,7 @@ private CANSparkMax motorController1;
     motorController1 = new CANSparkMax(14, MotorType.kBrushless);
     motorController1.setInverted(false); // Keeping left motor rotation the same
 
+
     }
 
     public void set_speed(double value){
