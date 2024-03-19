@@ -5,9 +5,6 @@ public class autoBuilder {
     public static Command autoCommandBuilder(int autoCommand) {
         Command returnCommand = null;
             switch (autoCommand) {
-                case 0:
-                    // Do nothing
-                    break;
                 case 1:
                     // Drive forward
                     break;
@@ -19,21 +16,6 @@ public class autoBuilder {
                     break;
                 case 4:
                     // Turn right
-                    break;
-                case 5:
-                    // Shoot
-                    break;
-                case 6:
-                    // Intake
-                    break;
-                case 7:
-                    // Intake wheels
-                    break;
-                case 8:
-                    // Vision
-                    break;
-                case 9:
-                    // Computer align
                     break;
                 default:
                     // Do nothing

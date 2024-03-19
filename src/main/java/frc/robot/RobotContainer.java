@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.VisionSubsystem;
 import java.util.List;
+import frc.robot.commands.AutomaticIntake; // Import the missing class
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -66,14 +67,13 @@ public class RobotContainer {
   private final Command ComputerAligner = new ComputerAlign(m_robotDrive, m_limelight);
   private final Command PickupUp = new IntakePickupArmUp(m_intake);
   private final Command PickupDown = new IntakePickupArmDown(m_intake);
-  private final Command Shoot = new Shoot(m_shooter);
-  private final Command AmpScore = new ScoreAmp(m_shooter);
+  private final Command Shoot = new Shoot(m_shooter, m_wheels);
+  private final Command AmpScore = new ScoreAmp(m_wheels, m_intake);
   private final Command IntakeWeelsIn = new IntakeIn(m_wheels);
   private final Command IntakeWeelsOut = new IntakeOut(m_wheels);
+  private final Command AutomaticIntake = new AutomaticIntake(m_wheels, m_intake);
 
-
-
-  SendableChooser < Command > m_chooser = new SendableChooser < > ();
+SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
   public RobotContainer() {
     // Configure the button bindings
@@ -124,7 +124,8 @@ new JoystickButton(m_driverController, Button.kR1.value)
     .whileTrue(new RunCommand(
         () -> m_robotDrive.setX(),
         m_robotDrive));
-new Trigger(m_driverController::getRightBumper).whileTrue(ComputerAligner);
+        // Changes to the Y buttopn
+new Trigger(m_driverController::getYButton).whileTrue(ComputerAligner);
 // Setting up operator controls
 new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
 new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);
@@ -132,8 +133,10 @@ new Trigger(m_operatorController::getBButton).whileTrue(Shoot);
 new Trigger(m_operatorController::getYButton).whileTrue(AmpScore);
 new Trigger(m_operatorController::getAButton).whileTrue(IntakeWeelsIn);
 new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
+// Adds automatic intake
+new Trigger(m_operatorController::getStartButton).whileTrue(AutomaticIntake);
 
-  }
+}
 
 
 // Setting up methods for the robot.java class to use to display information to the shuffleboard

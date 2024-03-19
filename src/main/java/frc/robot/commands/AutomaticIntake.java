@@ -19,13 +19,13 @@ import frc.robot.subsystems.IntakeWheels;
 // We are assuming that the arm will already be in the correct position to intake the ring
 
 // Only use this command when about to pick up a ring
-public class ScoreAmp extends Command {
+public class AutomaticIntake extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
     private long startingTime;
 
-    public ScoreAmp(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
+    public AutomaticIntake(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(m_intakeWheels, intakeSubsystem);
@@ -42,20 +42,24 @@ public class ScoreAmp extends Command {
     // This is our accurate automatic intake system A.A.I.S
     @Override
     public void execute() {
+        // We are going to have a distance sensor to automatically take in the rings
 
+        // First we will put the intake wheels in reverse to take in the ring
+
+        // IF we find a ring, we will do the following  process
+
+        // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
 
         long elapsedTime = System.currentTimeMillis() - startingTime;
 
         if (elapsedTime < MaxTime) {
-        if (m_intakeSubsystem.getAngle() < 88) { // 2 degrees less than 90
-            m_intakeSubsystem.set_speed(0.5);
-        } else if (m_intakeSubsystem.getAngle() > 92) { // 2 degrees more than 90
-            m_intakeSubsystem.set_speed(-0.5);
+            if (m_intakeSubsystem.hasRing() == true) {
+                m_intakeSubsystem.set_speed(-0.5);
+            } else {
+                m_intakeSubsystem.set_speed(0);
+            }
         } else {
-            m_intakeWheels.set_speed(-0.5);
-        }
-        } else {
-            m_intakeWheels.set_speed(0);
+            m_intakeSubsystem.set_speed(0);
         }
 
 
@@ -66,7 +70,7 @@ public class ScoreAmp extends Command {
     public void end(boolean interrupted) {
 
         // Here we will stop the intake wheels
-        m_intakeWheels.set_speed(0);
+        m_intakeSubsystem.set_speed(0);
     }
 
     // Returns true when the command should end.

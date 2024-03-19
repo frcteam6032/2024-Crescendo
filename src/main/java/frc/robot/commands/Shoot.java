@@ -13,21 +13,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.IntakeWheels;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class Shoot extends Command {
 
     private final ShooterSubsystem m_shooter;
-
-    public Shoot(ShooterSubsystem subsystem) {
+    private final IntakeWheels m_intakeWheels;
+    public Shoot(ShooterSubsystem subsystem, IntakeWheels intakeWheels) {
         m_shooter = subsystem;
-        addRequirements(m_shooter);
+        m_intakeWheels = intakeWheels;
+        addRequirements(m_shooter, m_intakeWheels);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         m_shooter.set_speed(0.8);
+        m_intakeWheels.set_speed(0.5);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
