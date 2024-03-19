@@ -73,7 +73,7 @@ public class RobotContainer {
   private final Command PickupDown = new IntakePickupArmDown(m_intake);
   private final Command Shoot = new Shoot(m_shooter, m_wheels);
   private final Command AmpScore = new ScoreAmp(m_wheels, m_intake);
-  private final Command IntakeWeelsIn = new IntakeIn(m_wheels);
+  private final Command IntakeWeelsIn = new IntakeIn(m_wheels, m_intake);
   private final Command IntakeWeelsOut = new IntakeOut(m_wheels);
   private final Command AutomaticIntake = new AutomaticIntake(m_wheels, m_intake);
   //private final Command WenchCmd = new Wench(m_whench);

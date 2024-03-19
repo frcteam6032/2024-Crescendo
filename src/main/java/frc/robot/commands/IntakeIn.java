@@ -13,14 +13,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
 
 public class IntakeIn extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
     private final IntakeWheels m_intakeWheels;
-    public IntakeIn(IntakeWheels subsystem) {
+    private final IntakeSubsystem m_intakeSubsystem;
+    public IntakeIn(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
-        addRequirements(m_intakeWheels);
+        m_intakeSubsystem = intakeSubsystem;
+        addRequirements(m_intakeWheels, m_intakeSubsystem);
     }
 
     // Called when the command is initially scheduled.
@@ -30,9 +33,13 @@ public class IntakeIn extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-    
-    
+        if (m_intakeSubsystem.hasRing() == true) {
+                m_intakeWheels.set_speed(0);
+        }
+        else {
         m_intakeWheels.set_speed(-0.5);
+        }
+        
     }
 
     // Called once the command ends or is interrupted.
