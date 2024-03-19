@@ -24,7 +24,6 @@ public class AutomaticIntake extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
-    private long startingTime;
 
     public AutomaticIntake(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
@@ -35,9 +34,7 @@ public class AutomaticIntake extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        startingTime = System.currentTimeMillis();
     }
-    private int MaxTime = 500; //Force robot to exit this command after this much time (milliseconds)
     // Called every time the scheduler runs while the command is scheduled.
 
     // This is our accurate automatic intake system A.A.I.S
@@ -51,9 +48,8 @@ public class AutomaticIntake extends Command {
 
         // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
 
-       long elapsedTime = System.currentTimeMillis() - startingTime;
 
-        if (elapsedTime < MaxTime) {
+        if (m_intakeSubsystem.hasRing() == true) {
 
          if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
         System.out.println("Setting speed Negative [full] (down) [automatic]");
@@ -66,8 +62,8 @@ public class AutomaticIntake extends Command {
             }
             else {
                 //Arm is not close to min limit
-                   m_intakeSubsystem.set_speed(-0.4);
-                  m_intakeSubsystem.set_speed(-0.4);
+                   m_intakeSubsystem.set_speed(-0.2);
+                  m_intakeSubsystem.set_speed(-0.2);
 
             }
         }
@@ -92,11 +88,7 @@ public class AutomaticIntake extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-       long elapsedTime2 = System.currentTimeMillis() - startingTime;
-        if (elapsedTime2 > MaxTime) {
-             m_intakeSubsystem.set_speed(0);
-            return false;
-        }
+
         return false;
     }
 

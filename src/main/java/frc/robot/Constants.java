@@ -145,6 +145,6 @@ public final class Constants {
 
   public static final class ArmConstants {
     public static final double max_limit = 210;
-    public static final double min_limit = 1;
+    public static final double min_limit = 3;
   }
 }
