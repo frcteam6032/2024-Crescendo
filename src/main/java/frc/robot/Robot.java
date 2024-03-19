@@ -111,6 +111,8 @@ public class Robot extends TimedRobot {
   // Competition tab
   GenericEntry targetFound = Shuffleboard.getTab("Competition").add("Ready To Align", false).getEntry();
   GenericEntry robotAligned = Shuffleboard.getTab("Competition").add("Robot Aligned", false).getEntry();
+    GenericEntry robotRing = Shuffleboard.getTab("Competition").add("Robot Has Ring", false).getEntry();
+
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
@@ -119,6 +121,7 @@ public class Robot extends TimedRobot {
     targetFound.setBoolean(m_robotContainer.targetValid());
     robotAligned.setBoolean(m_robotContainer.isRobotAligned());
     rangeOnboardEntry3.setDouble(m_robotContainer.getArmAngle());
+    robotRing.setBoolean(m_robotContainer.hasRingR());
   }
 
   @Override

@@ -161,6 +161,10 @@ public boolean targetValid() {
     return m_limelight.isTargetValid();
 }
 
+public boolean hasRingR() {
+    return m_intake.hasRing();
+}
+
 
 public double getArmAngle() {
     return m_intake.getAngle();  

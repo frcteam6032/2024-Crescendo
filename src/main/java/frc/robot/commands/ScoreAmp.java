@@ -13,6 +13,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
 
@@ -23,7 +24,6 @@ public class ScoreAmp extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
-    private long startingTime;
 
     public ScoreAmp(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
@@ -34,29 +34,35 @@ public class ScoreAmp extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        startingTime = System.currentTimeMillis();
     }
-    private int MaxTime = 3000; //Force robot to exit this command after this much time (milliseconds)
     // Called every time the scheduler runs while the command is scheduled.
 
     // This is our accurate automatic intake system A.A.I.S
     @Override
     public void execute() {
+            // If we are within 2 degrees of 90, then we stop the arm
 
-
-        long elapsedTime = System.currentTimeMillis() - startingTime;
-
-        if (elapsedTime < MaxTime) {
-        if (m_intakeSubsystem.getAngle() < 88) { // 2 degrees less than 90
-            m_intakeSubsystem.set_speed(0.5);
-        } else if (m_intakeSubsystem.getAngle() > 92) { // 2 degrees more than 90
-            m_intakeSubsystem.set_speed(-0.5);
-        } else {
-            m_intakeWheels.set_speed(-0.5);
+        if (Math.abs(m_intakeSubsystem.getAngle() - Constants.ArmConstants.mid_limit) < 8) {
+            m_intakeSubsystem.set_speed(0);
+            m_intakeWheels.set_speed(-0.2);
         }
-        } else {
+        // If we are greater than 90 degrees and less than the max limit, we will go backwards/down
+        else if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.mid_limit + 10 && m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
+            m_intakeSubsystem.set_speed(-0.3);
+        }
+        // If we are less than 90 degrees and greater than the min limit, we will go forwards/up
+        else if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.mid_limit + 10 && m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
+            m_intakeSubsystem.set_speed(0.3);
+        }       
+        else 
+        {
+            // If we are outside of the limits, we will stop the arm
+            m_intakeSubsystem.set_speed(0);
             m_intakeWheels.set_speed(0);
+
         }
+
+   
 
 
     }
@@ -67,15 +73,13 @@ public class ScoreAmp extends Command {
 
         // Here we will stop the intake wheels
         m_intakeWheels.set_speed(0);
+        m_intakeSubsystem.set_speed(0);
+
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        long elapsedTime2 = System.currentTimeMillis() - startingTime;
-        if (elapsedTime2 > MaxTime) {
-            return false;
-        }
         return false;
     }
 
