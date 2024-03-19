@@ -13,6 +13,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
 
@@ -50,19 +51,34 @@ public class AutomaticIntake extends Command {
 
         // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
 
-        long elapsedTime = System.currentTimeMillis() - startingTime;
+       long elapsedTime = System.currentTimeMillis() - startingTime;
 
         if (elapsedTime < MaxTime) {
-            if (m_intakeSubsystem.hasRing() == true) {
-                m_intakeSubsystem.set_speed(-0.5);
-            } else {
-                m_intakeSubsystem.set_speed(0);
+
+         if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
+        System.out.println("Setting speed Negative [full] (down) [automatic]");
+        // If the arm is near the min limit, reduce the speed
+            if (m_intakeSubsystem.getAngle() <= Constants.ArmConstants.min_limit + 30) {
+                //Arm is close to min limit
+                System.out.println("Setting speed Negative [reduced] (down) [automatic]");
+                m_intakeSubsystem.set_speed(-0.1);
+                m_intakeSubsystem.set_speed(-0.1);
             }
-        } else {
+            else {
+                //Arm is not close to min limit
+                   m_intakeSubsystem.set_speed(-0.4);
+                  m_intakeSubsystem.set_speed(-0.4);
+
+            }
+        }
+    
+        }
+        else {
+            System.out.println("Setting speed 0 (stop) [automatic]");
+            m_intakeSubsystem.set_speed(0);
             m_intakeSubsystem.set_speed(0);
         }
-
-
+        
     }
 
     // Called once the command ends or is interrupted.
@@ -76,8 +92,9 @@ public class AutomaticIntake extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        long elapsedTime2 = System.currentTimeMillis() - startingTime;
+       long elapsedTime2 = System.currentTimeMillis() - startingTime;
         if (elapsedTime2 > MaxTime) {
+             m_intakeSubsystem.set_speed(0);
             return false;
         }
         return false;

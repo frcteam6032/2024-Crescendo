@@ -98,7 +98,7 @@ private DigitalInput dioInput;
     public boolean hasRing() {
         boolean isHigh = dioInput.get();
 
-        if (isHigh) {
+        if (!isHigh) {
             // The DIO port is receiving high voltage
             return true;
         } else {
