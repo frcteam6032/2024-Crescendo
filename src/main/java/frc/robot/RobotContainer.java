@@ -125,24 +125,21 @@ SendableChooser < Command > m_chooser = new SendableChooser < > ();
    */
   private void configureButtonBindings() {
     // Setting up driver commands
-    // Quick stop
-new JoystickButton(m_driverController, Button.kR1.value)
-    .whileTrue(new RunCommand(
-        () -> m_robotDrive.setX(),
-        m_robotDrive));
-        // Changes to the Y buttopn
-new Trigger(m_driverController::getYButton).whileTrue(ComputerAligner);
-// Setting up operator controls
-new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
-new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);
-new Trigger(m_operatorController::getBButton).whileTrue(Shoot);
-new Trigger(m_operatorController::getYButton).whileTrue(AmpScore);
-new Trigger(m_operatorController::getAButton).whileTrue(IntakeWeelsIn);
-new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
-// Adds automatic intake
-new Trigger(m_operatorController::getStartButton).whileTrue(AutomaticIntake);
-// Adds wench
-//new Trigger(m_operatorController::getBackButton).whileTrue(WenchCmd);
+    new Trigger(m_driverController::getYButton).whileTrue(ComputerAligner);
+
+    // Setting up operator controls
+    new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
+    new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);
+    new Trigger(m_operatorController::getBButton).whileTrue(Shoot);
+    new Trigger(m_operatorController::getYButton).whileTrue(AmpScore);
+    new Trigger(m_operatorController::getAButton).whileTrue(IntakeWeelsIn);
+    new Trigger(m_operatorController::getXButton).whileTrue(IntakeWeelsOut);
+    
+    // Adds automatic intake
+    new Trigger(m_operatorController::getStartButton).whileTrue(AutomaticIntake);
+    
+    // Adds wench
+    //new Trigger(m_operatorController::getBackButton).whileTrue(WenchCmd);
 
 }
 
