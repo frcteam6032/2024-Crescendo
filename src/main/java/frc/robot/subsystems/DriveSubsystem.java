@@ -13,12 +13,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;  //TODO: Change to Pigeon Gyro
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;  //TODO: Change to Pigeon Gyro
+//import edu.wpi.first.wpilibj.ADIS16470_IMU;  //TODO: Change to Pigeon Gyro
+//import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;  //TODO: Change to Pigeon Gyro
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.PigeonIMU.PigeonState;
 
 
 public class DriveSubsystem extends SubsystemBase {
@@ -235,7 +236,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getTurnRate() {
-    // return m_gyro.getRate(PigeonStateRate.kYaw) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);  //TODO: Change to Pigeon Gyro
+    //return m_gyro.getRate(PigeonState.kYaw) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     return 0;
   }
 }
