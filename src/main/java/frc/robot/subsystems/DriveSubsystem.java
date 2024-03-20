@@ -16,7 +16,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.Pigeon2;
 
 
 public class DriveSubsystem extends SubsystemBase {
@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   //TODO: Change to Pigeon Gyro
   // The gyro sensor
  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
-  private final PigeonIMU m_gyro = new PigeonIMU(15); // Pigeon is on CAN Bus with device ID 15
+  private final Pigeon2 m_gyro = new Pigeon2(15); // Pigeon is on CAN Bus with device ID 15
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
