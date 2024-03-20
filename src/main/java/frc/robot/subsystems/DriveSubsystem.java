@@ -13,13 +13,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-//import edu.wpi.first.wpilibj.ADIS16470_IMU;  //TODO: Change to Pigeon Gyro
-//import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;  //TODO: Change to Pigeon Gyro
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.ctre.phoenix.sensors.PigeonIMU.PigeonState;
 
 
 public class DriveSubsystem extends SubsystemBase {
