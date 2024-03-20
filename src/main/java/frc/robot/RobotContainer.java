@@ -34,6 +34,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -126,7 +127,7 @@ SendableChooser < Command > m_chooser = new SendableChooser < > ();
   private void configureButtonBindings() {
     // Setting up driver commands
     new Trigger(m_driverController::getYButton).whileTrue(ComputerAligner);
-
+    new Trigger(m_driverController::getAButton).onTrue(Commands.runOnce(() -> m_robotDrive.zeroHeading()));
     // Setting up operator controls
     new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
     new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);
@@ -163,6 +164,10 @@ public boolean targetValid() {
 
 public boolean hasRingR() {
     return m_intake.hasRing();
+}
+
+public double getYawR() {
+    return m_robotDrive.getHeading();
 }
 
 

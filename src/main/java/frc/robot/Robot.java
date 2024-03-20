@@ -107,11 +107,14 @@ public class Robot extends TimedRobot {
    GenericEntry rangeOnboardEntry3 = Shuffleboard.getTab("Limelight Sensor")
   .add("Arm Angle", 0)
   .getEntry();
+    GenericEntry robotYaw = Shuffleboard.getTab("Competition")
+  .add("Yaw", 0)
+  .getEntry();
 
   // Competition tab
   GenericEntry targetFound = Shuffleboard.getTab("Competition").add("Ready To Align", false).getEntry();
   GenericEntry robotAligned = Shuffleboard.getTab("Competition").add("Robot Aligned", false).getEntry();
-    GenericEntry robotRing = Shuffleboard.getTab("Competition").add("Robot Has Ring", false).getEntry();
+  GenericEntry robotRing = Shuffleboard.getTab("Competition").add("Robot Has Ring", false).getEntry();
 
   /** This function is called periodically during operator control. */
   @Override
@@ -122,6 +125,7 @@ public class Robot extends TimedRobot {
     robotAligned.setBoolean(m_robotContainer.isRobotAligned());
     rangeOnboardEntry3.setDouble(m_robotContainer.getArmAngle());
     robotRing.setBoolean(m_robotContainer.hasRingR());
+    robotYaw.setDouble(m_robotContainer.getYawR());
   }
 
   @Override
