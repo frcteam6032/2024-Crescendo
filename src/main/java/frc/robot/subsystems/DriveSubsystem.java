@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   //TODO: Change to Pigeon Gyro
   // The gyro sensor
  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
-  private final PigeonIMU m_gyro = new PigeonIMU(0); // Pigeon is on CAN Bus with device ID 0
+  private final PigeonIMU m_gyro = new PigeonIMU(15); // Pigeon is on CAN Bus with device ID 15
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
