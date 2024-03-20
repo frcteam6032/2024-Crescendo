@@ -22,6 +22,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ComputerAlign;
+import frc.robot.commands.IntakeBypass;
 import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
 import frc.robot.commands.IntakePickupArmDown;
@@ -77,6 +78,7 @@ public class RobotContainer {
   private final Command IntakeWeelsIn = new IntakeIn(m_wheels, m_intake);
   private final Command IntakeWeelsOut = new IntakeOut(m_wheels);
   private final Command AutomaticIntake = new AutomaticIntake(m_wheels, m_intake);
+  private final Command AmpBypass = new IntakeBypass(m_wheels, m_intake);
   //private final Command WenchCmd = new Wench(m_whench);
 
 
@@ -138,6 +140,7 @@ SendableChooser < Command > m_chooser = new SendableChooser < > ();
     
     // Adds automatic intake
     new Trigger(m_operatorController::getStartButton).whileTrue(AutomaticIntake);
+    new Trigger(m_operatorController::getLeftStickButton).whileTrue(AmpBypass);
     
     // Adds wench
     //new Trigger(m_operatorController::getBackButton).whileTrue(WenchCmd);

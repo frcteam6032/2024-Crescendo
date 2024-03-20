@@ -42,23 +42,21 @@ public class ScoreAmp extends Command {
     public void execute() {
             // If we are within 2 degrees of 90, then we stop the arm
 
-        if (Math.abs(m_intakeSubsystem.getAngle() - Constants.ArmConstants.mid_limit) < 8) {
+        if (Math.abs(m_intakeSubsystem.getAngle() - Constants.ArmConstants.mid_limit) < 2) {
             m_intakeSubsystem.set_speed(0);
-            m_intakeWheels.set_speed(-0.2);
         }
         // If we are greater than 90 degrees and less than the max limit, we will go backwards/down
-        else if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.mid_limit + 10 && m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
+        else if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.mid_limit && m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
             m_intakeSubsystem.set_speed(-0.3);
         }
         // If we are less than 90 degrees and greater than the min limit, we will go forwards/up
-        else if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.mid_limit + 10 && m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
+        else if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.mid_limit && m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
             m_intakeSubsystem.set_speed(0.3);
         }       
         else 
         {
             // If we are outside of the limits, we will stop the arm
             m_intakeSubsystem.set_speed(0);
-            m_intakeWheels.set_speed(0);
 
         }
 
@@ -72,7 +70,6 @@ public class ScoreAmp extends Command {
     public void end(boolean interrupted) {
 
         // Here we will stop the intake wheels
-        m_intakeWheels.set_speed(0);
         m_intakeSubsystem.set_speed(0);
 
     }
