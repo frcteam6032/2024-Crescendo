@@ -177,6 +177,10 @@ public double getYawR() {
 public double getArmAngle() {
     return m_intake.getAngle();  
 }
+
+public void headingSet(double degree) {
+    m_robotDrive.setHeading(degree);
+}
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

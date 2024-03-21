@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -23,6 +24,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private UsbCamera camera = CameraServer.startAutomaticCapture(0);
+  private ShuffleboardTab tab_competition = Shuffleboard.getTab("Competition");
+
   //private IntakeSubsystem m_intake;
 
   /**
@@ -34,6 +38,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    tab_competition.add(camera).withSize(6, 4);
+
     //m_intake.getArmParamaters();
     
   }
@@ -67,6 +73,8 @@ public class Robot extends TimedRobot {
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    m_robotContainer.headingSet(180);
+
    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     /*
@@ -98,13 +106,13 @@ public class Robot extends TimedRobot {
   }
 
     // Limelight debug
-    GenericEntry rangeOnboardEntry = Shuffleboard.getTab("Limelight Sensor")
+    GenericEntry rangeOnboardEntry = Shuffleboard.getTab("Competition")
   .add("Target X Offset", 0)
   .getEntry();
-   GenericEntry rangeOnboardEntry2 = Shuffleboard.getTab("Limelight Sensor")
+   GenericEntry rangeOnboardEntry2 = Shuffleboard.getTab("Competition")
   .add("Target Found", false)
   .getEntry();
-   GenericEntry rangeOnboardEntry3 = Shuffleboard.getTab("Limelight Sensor")
+   GenericEntry rangeOnboardEntry3 = Shuffleboard.getTab("Competition")
   .add("Arm Angle", 0)
   .getEntry();
     GenericEntry robotYaw = Shuffleboard.getTab("Competition")

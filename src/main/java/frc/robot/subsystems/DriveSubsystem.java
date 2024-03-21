@@ -229,7 +229,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getHeading() {
-    return m_gyro.getYaw();  //TODO: Change to Pigeon Gyro
+    return m_gyro.getYaw();  
+  }
+
+  public void setHeading(double degree) {
+    m_gyro.setYaw(degree);
   }
   /**
    * Returns the heading of the robot.
