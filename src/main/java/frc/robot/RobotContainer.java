@@ -81,8 +81,12 @@ public class RobotContainer {
   private final Command AmpBypass = new IntakeBypass(m_wheels, m_intake);
   //private final Command WenchCmd = new Wench(m_whench);
 
+  // Create Auto commands
 
-SendableChooser < Command > m_chooser = new SendableChooser < > ();
+  private final Command AutoShoot = new Shoot(m_shooter, m_wheels);
+  
+
+ SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
   public RobotContainer() {
     // Configure the button bindings
@@ -93,8 +97,8 @@ SendableChooser < Command > m_chooser = new SendableChooser < > ();
         m_chooser.setDefaultOption("No Auto", null);
         // Top one already done because there is no auto routine
         m_chooser.addOption("Leave Auto", null);
-        m_chooser.addOption("Score AMP", null);
-        m_chooser.addOption("Score Speaker", null);
+       // m_chooser.addOption("Score AMP", null);
+        m_chooser.addOption("Score Speaker", AutoShoot.withTimeout(3));
 
 
         // Put the chooser on the dashboard

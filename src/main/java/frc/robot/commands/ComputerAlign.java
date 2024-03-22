@@ -23,12 +23,15 @@ public class ComputerAlign extends Command {
         // If we're to the left
         if (m_visionSubsystem.isTargetValid() == true) {
         // If were to the left, drive right
-        if (m_visionSubsystem.getTX() < 1.2){
-            m_drivetrainSubsystem.drive(0.8, 0.0, 0.0, false, false);
+        if (m_visionSubsystem.getTX() < -3){
+            m_drivetrainSubsystem.drive(0.0, 0.1, 0.0, false, false);
         }
         // If we're to the right, drive left
-        else if (m_visionSubsystem.getTX() > 1.2) {
-            m_drivetrainSubsystem.drive(-0.8, 0.0, 0.0, false, false);
+        else if (m_visionSubsystem.getTX() > 3) {
+            m_drivetrainSubsystem.drive(0.0, -0.1, 0.0, false, false);
+        }
+        else {
+             m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
         }
     
     }
