@@ -38,7 +38,7 @@ private DigitalInput dioInput;
     }
 
 
-  // High percision acceleration control H.P.A.C
+  // High precision  acceleration control H.P.A.C
     public void set_speed(double value){
        System.out.println("Attempting to set speed: Value" + "[" + value + "]");
         System.out.println("Current Angle: " + getAngle());
