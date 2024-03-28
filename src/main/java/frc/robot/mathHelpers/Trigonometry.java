@@ -2,7 +2,7 @@ package frc.robot.mathHelpers;
 
 public class Trigonometry {
     public static double calcuateAngle(double distanceX, double distanceY) {
-        return Math.atan2(distanceY, distanceX);
+        return Math.atan2(distanceX, distanceY);
     }
 
     public static double offsetByAngle(double angle, double offset) {

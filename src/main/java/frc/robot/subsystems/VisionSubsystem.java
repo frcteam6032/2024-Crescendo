@@ -72,6 +72,9 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
 
+
+
+
     public boolean isAligned() {
       // Making sure we actually have a target
     if (isTargetValid() == true) {
@@ -84,3 +87,4 @@ public class VisionSubsystem extends SubsystemBase {
     return aligned;
   }
 }
+
