@@ -39,7 +39,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     tab_competition.add(camera).withSize(6, 4);
-
+    // Set the position of the robot to be inverted so that the robot drive backwards
+    m_robotContainer.headingSet(180);
     //m_intake.getArmParamaters();
     
   }

@@ -18,10 +18,24 @@ public class ComputerAlign extends Command {
     //TODO make sure we add the gyro to this command
 
     // AKA our C.A.S.S (computer assisted semi-alignment system)
-    @Override
-    public void execute() {
-        // If we're to the left
-        if (m_visionSubsystem.isTargetValid() == true) {
+
+    public static double calculateYawAngle(double dx, double dy) {
+         // Calculate angle in radians
+         double angleRadians = Math.atan2(dy, dx);
+
+         // Convert angle from radians to degrees
+         double angleDegrees = Math.toDegrees(angleRadians);
+ 
+         // Ensure angle is between 0 and 360 degrees
+         angleDegrees = (angleDegrees + 360) % 360;
+ 
+         return angleDegrees;
+    }
+
+
+
+    public void alignX() {
+    if (m_visionSubsystem.isTargetValid() == true) {
         // If were to the left, drive right
         if (m_visionSubsystem.getTX() < -3){
             m_drivetrainSubsystem.drive(0.0, 0.1, 0.0, false, false);
@@ -39,6 +53,56 @@ public class ComputerAlign extends Command {
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
     }
 }
+
+
+public void alignY() {
+    if (m_visionSubsystem.isTargetValid() == true) {
+      // If we are more than 3 units away from the target, drive forward
+      if (m_visionSubsystem.getTY() > 3){
+          m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+      }
+      else {
+        // If we are less than 3 units, stop
+            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+      }
+    
+    }
+    else {
+        m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+    }
+}
+
+
+public void alignZ(double currentYaw) { 
+    // We are working with degrees here
+    // We need to get the amount of degrees that we are from the target
+    // We will use the trigonometry class to get the angle we need to turn
+    // We will then use the gyro to turn the robot to that angle
+    double angleToTarget = calculateYawAngle(m_visionSubsystem.getTX(), m_visionSubsystem.getTY());
+    if (m_visionSubsystem.isTargetValid() == true) {
+    if (currentYaw < angleToTarget) {
+        m_drivetrainSubsystem.drive(0.0, 0.0, 0.1, false, false);
+    }
+    else if (currentYaw > angleToTarget) {
+        m_drivetrainSubsystem.drive(0.0, 0.0, -0.1, false, false);
+    }
+    else {
+        m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+    }
+ }
+ else {
+    m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+    }
+}
+
+
+
+    @Override
+    public void execute() {
+        alignX();
+        alignY();
+        alignZ(m_drivetrainSubsystem.getHeading());
+    }
 
     @Override
     public void end(boolean interrupted) {

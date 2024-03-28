@@ -45,6 +45,8 @@ import frc.robot.subsystems.WenchSubsystem;
 
 import java.util.List;
 import frc.robot.commands.AutomaticIntake; // Import the missing class
+import frc.robot.auto.autoDrive; // Import the missing class
+import frc.robot.auto.autoShoot;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -78,15 +80,17 @@ public class RobotContainer {
   private final Command IntakeWeelsIn = new IntakeIn(m_wheels, m_intake);
   private final Command IntakeWeelsOut = new IntakeOut(m_wheels);
   private final Command AutomaticIntake = new AutomaticIntake(m_wheels, m_intake);
-  private final Command AmpBypass = new IntakeBypass(m_wheels, m_intake);
-  //private final Command WenchCmd = new Wench(m_whench);
 
-  // Create Auto commands
+private final Command AmpBypass = new IntakeBypass(m_wheels, m_intake);
+//private final Command WenchCmd = new Wench(m_whench);
 
-  private final Command AutoShoot = new Shoot(m_shooter, m_wheels);
-  
+// Create Auto commands
 
- SendableChooser < Command > m_chooser = new SendableChooser < > ();
+private final Command AutoDriver = new autoDrive(m_robotDrive);
+private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
+
+  private final
+SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
   public RobotContainer() {
     // Configure the button bindings
@@ -96,9 +100,9 @@ public class RobotContainer {
     // Add commands to the autonomous command chooser
         m_chooser.setDefaultOption("No Auto", null);
         // Top one already done because there is no auto routine
-        m_chooser.addOption("Leave Auto", null);
+        m_chooser.addOption("Leave Auto", AutoDriver);
        // m_chooser.addOption("Score AMP", null);
-        m_chooser.addOption("Score Speaker", AutoShoot.withTimeout(3));
+        m_chooser.addOption("Score Speaker", AutoShooter);
 
 
         // Put the chooser on the dashboard
