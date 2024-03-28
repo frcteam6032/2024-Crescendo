@@ -119,6 +119,7 @@ public boolean alignYaw(double currentYaw) {
     } else {
         // Stop the robot when aligned with the target angle
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+        // AKA when theta is less than 3 degrees
         return true;
     }
     
