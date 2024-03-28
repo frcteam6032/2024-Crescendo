@@ -18,6 +18,7 @@ public class VisionSubsystem extends SubsystemBase {
   private final NetworkTable m_limelightTable;
   private double tv, tx, ta, ty;
   private int tid;
+  private double distance;
   private ArrayList<Double> m_targetList;
   private final int MAX_ENTRIES = 50;
   private final NetworkTableEntry m_led_entry;
@@ -39,6 +40,7 @@ public class VisionSubsystem extends SubsystemBase {
     tx = m_limelightTable.getEntry("tx").getDouble(0);
     ta = m_limelightTable.getEntry("ta").getDouble(0);
     ty = m_limelightTable.getEntry("ty").getDouble(0);
+    distance = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_targetspace").getDoubleArray(new double[6])[2];
 
     tid = (int) m_limelightTable.getEntry("tid").getInteger(0);
 
@@ -114,7 +116,7 @@ public class VisionSubsystem extends SubsystemBase {
       double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
 
       return distanceFromLimelightToGoalInches;*/
-      return 0;
+      return distance;
     }
 
 }
