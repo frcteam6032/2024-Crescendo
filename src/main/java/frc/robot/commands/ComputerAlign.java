@@ -34,7 +34,7 @@ public class ComputerAlign extends Command {
 
 
 
-    public void alignX() {
+    public boolean alignX() {
     if (m_visionSubsystem.isTargetValid() == true) {
         // If were to the left, drive right
         if (m_visionSubsystem.getTX() < -3){
@@ -46,16 +46,18 @@ public class ComputerAlign extends Command {
         }
         else {
              m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+             return true;
         }
     
     }
     else {
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
     }
+    return false;
 }
 
 
-public void alignY() {
+public boolean alignY() {
     if (m_visionSubsystem.isTargetValid() == true) {
       // If we are more than 3 units away from the target, drive forward
       if (m_visionSubsystem.getTY() > 3){
@@ -64,16 +66,18 @@ public void alignY() {
       else {
         // If we are less than 3 units, stop
             m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+            return true;
       }
     
     }
     else {
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
     }
+    return false;
 }
 
 
-public void alignZ(double currentYaw) { 
+public boolean alignZ(double currentYaw) { 
     // We are working with degrees here
     // We need to get the amount of degrees that we are from the target
     // We will use the trigonometry class to get the angle we need to turn
@@ -88,20 +92,24 @@ public void alignZ(double currentYaw) {
     }
     else {
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+        return true;
     }
  }
  else {
     m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
     }
+    return false;
 }
 
 
 
     @Override
     public void execute() {
-        alignX();
-        alignY();
-        alignZ(m_drivetrainSubsystem.getHeading());
+        if (alignX() == true) {
+            if (alignY() == true) {
+                alignZ(m_drivetrainSubsystem.getHeading());
+            }
+        }
     }
 
     @Override
