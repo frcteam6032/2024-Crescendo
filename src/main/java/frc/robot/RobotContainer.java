@@ -189,6 +189,18 @@ public void headingSet(double degree) {
     m_robotDrive.setHeading(degree);
 }
 
+public int getAprilTagID() {
+    if (m_limelight.isTargetValid() == true) {
+        return m_limelight.getTargetID();
+    }
+    else {
+        return 0;
+    }
+}
+
+public double getDistance() {
+    return m_limelight.getTargetDistance();
+}
 
 public void setDriveTypek(boolean resetYaw) {
     // Decides if the gyroscope should reset every 90 degrees

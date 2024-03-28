@@ -42,8 +42,6 @@ public class Robot extends TimedRobot {
     // Set the position of the robot to be inverted so that the robot drive backwards
     m_robotContainer.headingSet(180);
     //m_intake.getArmParamaters();
-   
-    
   }
 
   /**
@@ -125,6 +123,8 @@ public class Robot extends TimedRobot {
   GenericEntry targetFound = Shuffleboard.getTab("Competition").add("Ready To Align", false).getEntry();
   GenericEntry robotAligned = Shuffleboard.getTab("Competition").add("Robot Aligned", false).getEntry();
   GenericEntry robotRing = Shuffleboard.getTab("Competition").add("Robot Has Ring", false).getEntry();
+  GenericEntry distance = Shuffleboard.getTab("Competition").add("Distance", 0).getEntry();
+  GenericEntry tagId = Shuffleboard.getTab("Competition").add("Tag ID", 0).getEntry();
 
   // Toggle button
 
@@ -140,6 +140,8 @@ public class Robot extends TimedRobot {
     rangeOnboardEntry3.setDouble(m_robotContainer.getArmAngle());
     robotRing.setBoolean(m_robotContainer.hasRingR());
     robotYaw.setDouble(m_robotContainer.getYawR());
+    distance.setDouble(m_robotContainer.getDistance());
+    tagId.setDouble(m_robotContainer.getAprilTagID());
   }
 
   @Override
