@@ -78,7 +78,7 @@ public class VisionSubsystem extends SubsystemBase {
     public boolean isAligned() {
       // Making sure we actually have a target
     if (isTargetValid() == true) {
-    if (tx < 1.0 && tx > -1.0) {
+    if (tx < 3.0 && tx > -3.0) {
       aligned = true;
     } else {
       aligned = false;
@@ -86,5 +86,31 @@ public class VisionSubsystem extends SubsystemBase {
   }
     return aligned;
   }
+
+    public double getTargetDistance() {
+      double targetOffsetAngle_Vertical = ty;
+
+      // Degrees from being vertical
+      double limelightMountAngleDegrees = 25.0;
+      
+      // Distance from the floor to the limelight
+      double limelightLensHeightInches = 20.0;
+      
+      // distance from the target to the floor
+      double goalHeightInches = 60.0;
+      
+      double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+      double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+      
+      //calculate distance
+      double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+
+      return distanceFromLimelightToGoalInches;
+    }
+
+
+    public int getTargetID() {
+      return 0;
+    }
 }
 

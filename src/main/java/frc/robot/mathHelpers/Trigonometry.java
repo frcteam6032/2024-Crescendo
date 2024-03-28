@@ -1,19 +1,12 @@
 package frc.robot.mathHelpers;
 
 public class Trigonometry {
-    public static double calcuateAngle(double distanceX, double distanceY) {
-        return Math.atan2(distanceX, distanceY);
-    }
-
-    public static double offsetByAngle(double angle, double offset) {
-        return angle + offset;
-    }
-
-    public static double calculateAllowedDeviationAngle(double angle) {
-        return (angle * 0.5) + angle;
-    }
-
-    public static double calculateAllowedDeviationDistance(double distance) {
-        return (distance * 0.5) + distance;
+    // Convert normal coordinates to spherical coordinates to acccount for arc curvature
+    static public double[] cartesianToSpherical(double x, double y, double z) {
+        // Multiply variables by themselves and not use Math.pow for efficiency
+        double range = Math.sqrt(x*x + y*y + z*z);
+        double azimuth = Math.atan2(y, x);
+        double elevation = Math.atan2(z, Math.sqrt(x*x + y*y));
+        return new double[] {azimuth, elevation, range};
     }
 }

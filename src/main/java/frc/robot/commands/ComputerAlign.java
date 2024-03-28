@@ -15,26 +15,10 @@ public class ComputerAlign extends Command {
         addRequirements(drivetrainSubsystem);
     }
 
-    //TODO make sure we add the gyro to this command
 
     // AKA our C.A.S.S (computer assisted semi-alignment system)
 
-    public static double calculateYawAngle(double dx, double dy) {
-         // Calculate angle in radians
-         double angleRadians = Math.atan2(dy, dx);
-
-         // Convert angle from radians to degrees
-         double angleDegrees = Math.toDegrees(angleRadians);
- 
-         // Ensure angle is between 0 and 360 degrees
-         angleDegrees = (angleDegrees + 360) % 360;
- 
-         return angleDegrees;
-    }
-
-
-
-    public boolean alignX() {
+    public boolean alignSide() {
     if (m_visionSubsystem.isTargetValid() == true) {
         // If were to the left, drive right
         if (m_visionSubsystem.getTX() < -3){
@@ -57,59 +41,74 @@ public class ComputerAlign extends Command {
 }
 
 
-public boolean alignY() {
-    if (m_visionSubsystem.isTargetValid() == true) {
-      // If we are more than 3 units away from the target, drive forward
-      if (m_visionSubsystem.getTY() > 3){
-          m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
-      }
-      else {
-        // If we are less than 3 units, stop
-            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
-            return true;
-      }
-    
-    }
-    else {
-        m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
-    }
+public boolean alignDistance(int aprilTagID) {
+   // This will change depending on the april tag
+
+   double distance = m_visionSubsystem.getTargetDistance();
+   if (m_visionSubsystem.isTargetValid() == false) {
     return false;
-}
-
-
-public boolean alignZ(double currentYaw) { 
-    // We are working with degrees here
-    // We need to get the amount of degrees that we are from the target
-    // We will use the trigonometry class to get the angle we need to turn
-    // We will then use the gyro to turn the robot to that angle
-    double angleToTarget = calculateYawAngle(m_visionSubsystem.getTX(), m_visionSubsystem.getTY());
-    if (m_visionSubsystem.isTargetValid() == true) {
-    if (currentYaw < angleToTarget) {
-        m_drivetrainSubsystem.drive(0.0, 0.0, 0.1, false, false);
-    }
-    else if (currentYaw > angleToTarget) {
-        m_drivetrainSubsystem.drive(0.0, 0.0, -0.1, false, false);
-    }
-    else {
+   } 
+   else {
+   if (distance > 3) {
+         m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+    } else {
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
         return true;
     }
- }
- else {
-    m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+}
+   return true;
+}
+
+
+public boolean alignYaw(double currentYaw) {
+    // Get the position of the target in Cartesian coordinates
+    double targetX = m_visionSubsystem.getTX();
+    double targetY = m_visionSubsystem.getTY();
+    double targetZ = m_visionSubsystem.getTargetDistance(); // Get distance
+    
+    // Convert Cartesian coordinates to spherical coordinates
+    double[] sphericalCoordinates = Trigonometry.cartesianToSpherical(targetX, targetY, targetZ);
+    double azimuth = sphericalCoordinates[0];
+    
+    // Calculate the angle to align with based on azimuth
+    double angleToTarget = Math.toDegrees(azimuth);
+    
+    // Calculate the difference between current yaw and target angle
+    double angleDifference = angleToTarget - currentYaw;
+    
+    // The difference is between -180 and 180 degrees
+    if (angleDifference > 180) {
+        angleDifference -= 360;
+    } else if (angleDifference <= -180) {
+        angleDifference += 360;
     }
+    
+    // Set the speed for rotation based on the angle difference
+    // Signnum tells the robot to go left or right
+    double rotationSpeed = Math.signum(angleDifference) * 0.5; // Constant rotation speed
+
+    double kAngleThreshold = 3;
+    
+    // Drive the robot based on the angle difference
+    if (Math.abs(angleDifference) > kAngleThreshold) { // Adjust angle threshold
+        // Rotate the robot towards the target angle
+        m_drivetrainSubsystem.drive(0.0, 0.0, rotationSpeed, false, false);
+    } else {
+        // Stop the robot when aligned with the target angle
+        m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+        return true;
+    }
+    
+    // Return false if not aligned
     return false;
 }
+
 
 
 
     @Override
     public void execute() {
-        if (alignX() == true) {
-            if (alignY() == true) {
-                alignZ(m_drivetrainSubsystem.getHeading());
-            }
-        }
+     
     }
 
     @Override
