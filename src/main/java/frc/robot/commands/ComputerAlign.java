@@ -110,7 +110,7 @@ public boolean alignYaw(double currentYaw) {
     // Signnum tells the robot to go left or right
     double rotationSpeed = Math.signum(angleDifference) * 0.5; // Constant rotation speed
 
-    double kAngleThreshold = 3;
+    final double kAngleThreshold = 3;
     
     // Drive the robot based on the angle difference
     if (Math.abs(angleDifference) > kAngleThreshold) { // Adjust angle threshold

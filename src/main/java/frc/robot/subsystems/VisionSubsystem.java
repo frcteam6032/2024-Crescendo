@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class VisionSubsystem extends SubsystemBase {
   private final NetworkTable m_limelightTable;
   private double tv, tx, ta, ty;
+  private int tid;
   private ArrayList<Double> m_targetList;
   private final int MAX_ENTRIES = 50;
   private final NetworkTableEntry m_led_entry;
@@ -38,6 +39,8 @@ public class VisionSubsystem extends SubsystemBase {
     tx = m_limelightTable.getEntry("tx").getDouble(0);
     ta = m_limelightTable.getEntry("ta").getDouble(0);
     ty = m_limelightTable.getEntry("ty").getDouble(0);
+
+    tid = (int) m_limelightTable.getEntry("tid").getInteger(0);
 
     if (m_targetList.size() >= MAX_ENTRIES) {
       m_targetList.remove(0);
@@ -87,8 +90,13 @@ public class VisionSubsystem extends SubsystemBase {
     return aligned;
   }
 
+
+   public int getTargetID() {
+      return tid;
+    }
+
     public double getTargetDistance() {
-      double targetOffsetAngle_Vertical = ty;
+      /*double targetOffsetAngle_Vertical = ty;
 
       // Degrees from being vertical
       double limelightMountAngleDegrees = 25.0;
@@ -105,12 +113,9 @@ public class VisionSubsystem extends SubsystemBase {
       //calculate distance
       double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
 
-      return distanceFromLimelightToGoalInches;
-    }
-
-
-    public int getTargetID() {
+      return distanceFromLimelightToGoalInches;*/
       return 0;
     }
+
 }
 
