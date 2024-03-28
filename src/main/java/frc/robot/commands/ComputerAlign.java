@@ -44,16 +44,39 @@ public class ComputerAlign extends Command {
 public boolean alignDistance(int aprilTagID) {
    // This will change depending on the april tag
 
+   // Amp ids = 6, 5
+   // Speaker ids = 7, 4
+
    double distance = m_visionSubsystem.getTargetDistance();
+   double distanceThreshold = 3;
    if (m_visionSubsystem.isTargetValid() == false) {
     return false;
    } 
    else {
-   if (distance > 3) {
-         m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
-    } else {
-        m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
-        return true;
+    if (aprilTagID == 6 || aprilTagID == 5) {
+        distanceThreshold = 1;
+        if (distance > distanceThreshold) {
+            m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+        } else {
+            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+            return true;
+        }
+    } else if (aprilTagID == 7 || aprilTagID == 4) {
+        distanceThreshold = 10;
+        if (distance > distanceThreshold) {
+            m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+        } else {
+            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+            return true;
+        }
+    }
+    else {
+        if (distance > distanceThreshold) {
+            m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+        } else {
+            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+            return true;
+        }
     }
 }
    return true;
@@ -108,7 +131,16 @@ public boolean alignYaw(double currentYaw) {
 
     @Override
     public void execute() {
-     
+     // Align left and right first
+        if (alignSide() == true) {
+            // Align distance
+            if (alignDistance(m_visionSubsystem.getTargetID()) == true) {
+                // Align yaw
+                if (alignYaw(m_drivetrainSubsystem.getHeading()) == true) {
+                    return;
+                }
+            }
+        }
     }
 
     @Override
