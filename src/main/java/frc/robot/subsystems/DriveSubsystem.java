@@ -235,6 +235,27 @@ public class DriveSubsystem extends SubsystemBase {
   public void setHeading(double degree) {
     m_gyro.setYaw(degree);
   }
+
+  public void setDriveType(boolean shouldReset) {
+    // Decides if the gyroscope should reset every 90 degrees
+    if (shouldReset == true) {
+    if (m_gyro.getYaw() == 0) {
+      m_gyro.setYaw(0);
+    }
+    else if (m_gyro.getYaw() == 90) {
+      m_gyro.setYaw(0);
+    }
+    else if (m_gyro.getYaw() == 180) {
+      m_gyro.setYaw(0);
+    }
+    else if (m_gyro.getYaw() == 270) {
+      m_gyro.setYaw(0);
+    }
+    else if (m_gyro.getYaw() == 360) {
+      m_gyro.setYaw(0);
+    }
+  }
+  }
   /**
    * Returns the heading of the robot.
    *

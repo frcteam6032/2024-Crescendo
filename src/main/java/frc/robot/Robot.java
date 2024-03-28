@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
     // Set the position of the robot to be inverted so that the robot drive backwards
     m_robotContainer.headingSet(180);
     //m_intake.getArmParamaters();
+   
     
   }
 
@@ -124,6 +125,10 @@ public class Robot extends TimedRobot {
   GenericEntry targetFound = Shuffleboard.getTab("Competition").add("Ready To Align", false).getEntry();
   GenericEntry robotAligned = Shuffleboard.getTab("Competition").add("Robot Aligned", false).getEntry();
   GenericEntry robotRing = Shuffleboard.getTab("Competition").add("Robot Has Ring", false).getEntry();
+
+  // Toggle button
+
+
 
   /** This function is called periodically during operator control. */
   @Override

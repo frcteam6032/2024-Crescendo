@@ -89,8 +89,7 @@ private final Command AmpBypass = new IntakeBypass(m_wheels, m_intake);
 private final Command AutoDriver = new autoDrive(m_robotDrive);
 private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
 
-  private final
-SendableChooser < Command > m_chooser = new SendableChooser < > ();
+  private final SendableChooser < Command > m_chooser = new SendableChooser < > ();
 
   public RobotContainer() {
     // Configure the button bindings
@@ -189,6 +188,13 @@ public double getArmAngle() {
 public void headingSet(double degree) {
     m_robotDrive.setHeading(degree);
 }
+
+
+public void setDriveTypek(boolean resetYaw) {
+    // Decides if the gyroscope should reset every 90 degrees
+    m_robotDrive.setDriveType(resetYaw);
+}
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
