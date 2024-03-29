@@ -52,6 +52,7 @@ public void alignDistance(int aprilTagID) {
    // Speaker ids = 7, 4
 
    // Make positive
+   // Distance is in meters
    double distance = m_visionSubsystem.getTargetDistance() * -1;
    double distanceThreshold = 1;
    if (m_visionSubsystem.isTargetValid() == false) {
@@ -76,6 +77,7 @@ public void alignDistance(int aprilTagID) {
         }
     }
     else {
+        distanceThreshold = 0.5;
         if (distance > distanceThreshold) {
             velocity_X = 0.1;
         } else {
@@ -92,7 +94,8 @@ public void alignYaw(double currentYaw) {
     // Get the position of the target in Cartesian coordinates
     double targetX = m_visionSubsystem.getTX();
     double targetY = m_visionSubsystem.getTY();
-    double targetZ = m_visionSubsystem.getTargetDistance(); // Get distance
+    double targetZ = m_visionSubsystem.getTargetDistance() * -1; // Get distance
+    // Make positive
     
     // Convert Cartesian coordinates to spherical coordinates
     double[] sphericalCoordinates = Trigonometry.cartesianToSpherical(targetX, targetY, targetZ);

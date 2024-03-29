@@ -146,6 +146,7 @@ public class Robot extends TimedRobot {
     // Normalize the robot heading
     // This will prevent the robot from reading over 360 degrees
     m_robotContainer.normalizeAngle(m_robotContainer.getYawR());
+    m_robotContainer.updateDrive();
   }
 
   @Override

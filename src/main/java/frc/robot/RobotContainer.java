@@ -89,7 +89,17 @@ private final Command AmpBypass = new IntakeBypass(m_wheels, m_intake);
 private final Command AutoDriver = new autoDrive(m_robotDrive);
 private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
 
+private final Command AutoDriver2 = new autoDrive(m_robotDrive);
+private final Command AutoShooter2 = new autoShoot(m_shooter, m_wheels);
+
+
   private final SendableChooser < Command > m_chooser = new SendableChooser < > ();
+
+public void setDriveTypek(boolean resetYaw) {
+    // Decides if the gyroscope should reset every 90 degrees
+    Globals.GlobalVars.shouldYawReset = resetYaw;
+    return;
+}
 
   public RobotContainer() {
     // Configure the button bindings
@@ -102,6 +112,8 @@ private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
         m_chooser.addOption("Leave Auto", AutoDriver);
        // m_chooser.addOption("Score AMP", null);
         m_chooser.addOption("Score Speaker", AutoShooter);
+        // A combination of the two above
+        m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoDriver2));
 
 
         // Put the chooser on the dashboard
@@ -137,6 +149,8 @@ private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
     // Setting up driver commands
     new Trigger(m_driverController::getYButton).whileTrue(ComputerAligner);
     new Trigger(m_driverController::getAButton).onTrue(Commands.runOnce(() -> m_robotDrive.zeroHeading()));
+    new Trigger(m_driverController::getLeftBumper).onTrue(Commands.runOnce(() -> setDriveTypek(true)));
+    new Trigger(m_driverController::getRightBumper).onTrue(Commands.runOnce(() -> setDriveTypek(false)));
     // Setting up operator controls
     new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
     new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);
@@ -199,16 +213,22 @@ public int getAprilTagID() {
 }
 
 public double getDistance() {
-    return m_limelight.getTargetDistance();
+    return m_limelight.getTargetDistance() * -1;
 }
 
-public void setDriveTypek(boolean resetYaw) {
-    // Decides if the gyroscope should reset every 90 degrees
-    m_robotDrive.setDriveType(resetYaw);
-}
+
 
 public void normalizeAngle(double yaw) {
     m_robotDrive.normalizeAngle(yaw);
+}
+
+public void updateDrive() {
+    if (Globals.GlobalVars.shouldYawReset == true) {
+    m_robotDrive.setDriveType();
+    }
+    else {
+        return;
+    }
 }
 
   /**

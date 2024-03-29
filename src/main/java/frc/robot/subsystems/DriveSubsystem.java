@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Globals;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.sensors.Pigeon2;
@@ -236,9 +237,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyro.setYaw(degree);
   }
 
-  public void setDriveType(boolean shouldReset) {
+  public void setDriveType() {
     // Decides if the gyroscope should reset every 90 degrees
-    if (shouldReset == true) {
+    if (Globals.GlobalVars.shouldYawReset == true) {
     if (m_gyro.getYaw() == 0) {
       m_gyro.setYaw(0);
     }
@@ -254,13 +255,15 @@ public class DriveSubsystem extends SubsystemBase {
     else if (m_gyro.getYaw() == 360) {
       m_gyro.setYaw(0);
     }
-  }
+    }
   }
   /**
    * Returns the heading of the robot.
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
+
+   // Normalize the angle to be between 0 and 360 so that we dont have a yaw of 1000 LOL
   public void normalizeAngle(double yaw) {
     yaw = Math.floorMod((int)yaw, 360);
     if (yaw < 0.0) {
