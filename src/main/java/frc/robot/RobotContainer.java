@@ -120,7 +120,7 @@ private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
+                true, false),
             m_robotDrive));
   }
 
@@ -205,6 +205,10 @@ public double getDistance() {
 public void setDriveTypek(boolean resetYaw) {
     // Decides if the gyroscope should reset every 90 degrees
     m_robotDrive.setDriveType(resetYaw);
+}
+
+public void normalizeAngle(double yaw) {
+    m_robotDrive.normalizeAngle(yaw);
 }
 
   /**

@@ -261,8 +261,12 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
-  public double getTurnRate() {
-    //return m_gyro.getRate(PigeonState.kYaw) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-    return 0;
+  public void normalizeAngle(double yaw) {
+    yaw = Math.floorMod((int)yaw, 360);
+    if (yaw < 0.0) {
+      yaw += 360.0;
+    }
+    m_gyro.setYaw(yaw);
   }
+
 }

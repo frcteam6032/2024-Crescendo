@@ -8,6 +8,10 @@ public class ComputerAlign extends Command {
     private final VisionSubsystem m_visionSubsystem;
     private final DriveSubsystem m_drivetrainSubsystem;
 
+    private double velocity_Y = 0.0;
+    private double velocity_X = 0.0;
+    private double velocity_R = 0.0;
+
     public ComputerAlign(DriveSubsystem drivetrainSubsystem, VisionSubsystem visionSubsystem) {
         this.m_drivetrainSubsystem = drivetrainSubsystem;
         this.m_visionSubsystem = visionSubsystem;
@@ -18,72 +22,73 @@ public class ComputerAlign extends Command {
 
     // AKA our C.A.S.S (computer assisted semi-alignment system)
 
-    public boolean alignSide() {
+    public void alignSide() {
     if (m_visionSubsystem.isTargetValid() == true) {
         // If were to the left, drive right
         if (m_visionSubsystem.getTX() < -3){
-            m_drivetrainSubsystem.drive(0.0, 0.1, 0.0, false, false);
+            velocity_Y = 0.1;
         }
         // If we're to the right, drive left
         else if (m_visionSubsystem.getTX() > 3) {
-            m_drivetrainSubsystem.drive(0.0, -0.1, 0.0, false, false);
+           velocity_Y = -0.1;
         }
         else {
-             m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
-             return true;
+             velocity_Y = 0;
+             return;
         }
     
     }
     else {
-        m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+        velocity_Y = 0;
     }
-    return false;
+    return;
 }
 
 
-public boolean alignDistance(int aprilTagID) {
+public void alignDistance(int aprilTagID) {
    // This will change depending on the april tag
 
    // Amp ids = 6, 5
    // Speaker ids = 7, 4
 
-   double distance = m_visionSubsystem.getTargetDistance();
-   double distanceThreshold = 3;
+   // Make positive
+   double distance = m_visionSubsystem.getTargetDistance() * -1;
+   double distanceThreshold = 1;
    if (m_visionSubsystem.isTargetValid() == false) {
-    return false;
+    return;
    } 
    else {
     if (aprilTagID == 6 || aprilTagID == 5) {
-        distanceThreshold = 1;
+        distanceThreshold = 0.5;
         if (distance > distanceThreshold) {
-            m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+           velocity_X = 0.1;
         } else {
-            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
-            return true;
+            velocity_X = 0;
+            return;
         }
     } else if (aprilTagID == 7 || aprilTagID == 4) {
-        distanceThreshold = 10;
+        distanceThreshold = 4;
         if (distance > distanceThreshold) {
-            m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+            velocity_X = 0.1;
         } else {
-            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
-            return true;
+            velocity_X = 0;
+            return;
         }
     }
     else {
         if (distance > distanceThreshold) {
-            m_drivetrainSubsystem.drive(0.1, 0.0, 0.0, false, false);
+            velocity_X = 0.1;
         } else {
-            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
-            return true;
+             velocity_X = 0;
+            return;
         }
     }
 }
-   return true;
+   return;
 }
 
 
-public boolean alignYaw(double currentYaw) {
+public void alignYaw(double currentYaw) {
     // Get the position of the target in Cartesian coordinates
     double targetX = m_visionSubsystem.getTX();
     double targetY = m_visionSubsystem.getTY();
@@ -106,25 +111,24 @@ public boolean alignYaw(double currentYaw) {
         angleDifference += 360;
     }
     
-    // Set the speed for rotation based on the angle difference
-    // Signnum tells the robot to go left or right
-    double rotationSpeed = Math.signum(angleDifference) * 0.5; // Constant rotation speed
 
     final double kAngleThreshold = 3;
     
     // Drive the robot based on the angle difference
     if (Math.abs(angleDifference) > kAngleThreshold) { // Adjust angle threshold
         // Rotate the robot towards the target angle
-        m_drivetrainSubsystem.drive(0.0, 0.0, rotationSpeed, false, false);
+        // Set the speed for rotation based on the angle difference
+        // Signnum tells the robot to go left or right
+        velocity_R = Math.signum(angleDifference) * 0.5; // Constant rotation speed
     } else {
         // Stop the robot when aligned with the target angle
-        m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
+        velocity_R = 0;
         // AKA when theta is less than 3 degrees
-        return true;
+        return;
     }
     
     // Return false if not aligned
-    return false;
+    return;
 }
 
 
@@ -132,15 +136,12 @@ public boolean alignYaw(double currentYaw) {
 
     @Override
     public void execute() {
-     // Align left and right first
-        if (alignSide() == true) {
-            // Align distance
-            if (alignDistance(m_visionSubsystem.getTargetID()) == true) {
-                // Align yaw
-                if (alignYaw(m_drivetrainSubsystem.getHeading()) == true) {
-                    return;
-                }
-            }
+        // Instead of having each method move the bot (which causes only one method to run, we will have global velocity variables)
+        if (m_visionSubsystem.isTargetValid() == true) {
+        alignSide();
+        alignDistance(m_visionSubsystem.getTargetID());
+        alignYaw(m_drivetrainSubsystem.getHeading());
+        m_drivetrainSubsystem.drive(velocity_X, velocity_Y, velocity_R, false, false);
         }
     }
 

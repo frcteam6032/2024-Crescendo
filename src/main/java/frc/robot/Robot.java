@@ -142,6 +142,10 @@ public class Robot extends TimedRobot {
     robotYaw.setDouble(m_robotContainer.getYawR());
     distance.setDouble(m_robotContainer.getDistance());
     tagId.setDouble(m_robotContainer.getAprilTagID());
+
+    // Normalize the robot heading
+    // This will prevent the robot from reading over 360 degrees
+    m_robotContainer.normalizeAngle(m_robotContainer.getYawR());
   }
 
   @Override
