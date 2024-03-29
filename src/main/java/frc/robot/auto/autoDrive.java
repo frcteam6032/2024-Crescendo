@@ -29,7 +29,7 @@ public class autoDrive extends Command {
 
     @Override
     public void execute() {
-        m_drivetrainSubsystem.drive(0, -0.5, 0, false, false);
+        m_drivetrainSubsystem.drive(-0.5, 0, 0, false, false);
     }
 
     @Override
