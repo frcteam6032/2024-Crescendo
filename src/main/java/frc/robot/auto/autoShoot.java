@@ -48,7 +48,7 @@ public class autoShoot extends Command {
         m_shooter.set_speed(0);
         m_intakeWheels.set_speed(0.0);
     }
-    private final int MaxTime = 5000;
+    private final int MaxTime = 3000;
 
     // Returns true when the command should end.
     @Override
