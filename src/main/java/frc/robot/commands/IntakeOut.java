@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeWheels;
 
 public class IntakeOut extends Command {
-    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
     private final IntakeWheels m_intakeWheels;
+
     public IntakeOut(IntakeWheels subsystem) {
         m_intakeWheels = subsystem;
         addRequirements(m_intakeWheels);
@@ -25,13 +27,14 @@ public class IntakeOut extends Command {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-       
-       m_intakeWheels.set_speed(0.5);
+
+        m_intakeWheels.set_speed(0.5);
     }
 
     // Called once the command ends or is interrupted.

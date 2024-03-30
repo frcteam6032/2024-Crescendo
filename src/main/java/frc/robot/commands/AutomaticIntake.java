@@ -21,7 +21,8 @@ import frc.robot.subsystems.IntakeWheels;
 
 // Only use this command when about to pick up a ring
 public class AutomaticIntake extends Command {
-    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
 
@@ -44,37 +45,35 @@ public class AutomaticIntake extends Command {
 
         // First we will put the intake wheels in reverse to take in the ring
 
-        // IF we find a ring, we will do the following  process
+        // IF we find a ring, we will do the following process
 
-        // Then we will run the intake wheels for a set amount of time to ensure the ring is in the robot
-
+        // Then we will run the intake wheels for a set amount of time to ensure the
+        // ring is in the robot
 
         if (m_intakeSubsystem.hasRing() == true) {
 
-         if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
-        System.out.println("Setting speed Negative [full] (down) [automatic]");
-        // If the arm is near the min limit, reduce the speed
-            if (m_intakeSubsystem.getAngle() <= Constants.ArmConstants.min_limit + 30) {
-                //Arm is close to min limit
-                System.out.println("Setting speed Negative [reduced] (down) [automatic]");
-                m_intakeSubsystem.set_speed(-0.1);
-                m_intakeSubsystem.set_speed(-0.1);
-            }
-            else {
-                //Arm is not close to min limit
-                   m_intakeSubsystem.set_speed(-0.2);
-                  m_intakeSubsystem.set_speed(-0.2);
+            if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
+                System.out.println("Setting speed Negative [full] (down) [automatic]");
+                // If the arm is near the min limit, reduce the speed
+                if (m_intakeSubsystem.getAngle() <= Constants.ArmConstants.min_limit + 30) {
+                    // Arm is close to min limit
+                    System.out.println("Setting speed Negative [reduced] (down) [automatic]");
+                    m_intakeSubsystem.set_speed(-0.1);
+                    m_intakeSubsystem.set_speed(-0.1);
+                } else {
+                    // Arm is not close to min limit
+                    m_intakeSubsystem.set_speed(-0.2);
+                    m_intakeSubsystem.set_speed(-0.2);
 
+                }
             }
-        }
-    
-        }
-        else {
+
+        } else {
             System.out.println("Setting speed 0 (stop) [automatic]");
             m_intakeSubsystem.set_speed(0);
             m_intakeSubsystem.set_speed(0);
         }
-        
+
     }
 
     // Called once the command ends or is interrupted.

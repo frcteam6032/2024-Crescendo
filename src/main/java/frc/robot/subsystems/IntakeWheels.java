@@ -10,16 +10,16 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public class IntakeWheels extends SubsystemBase {
 
-private CANSparkMax motorController1;
+    private CANSparkMax motorController1;
 
     public IntakeWheels() {
- 
-    motorController1 = new CANSparkMax(13, MotorType.kBrushless);
-    motorController1.setInverted(false); // Keeping left motor rotation the same
+
+        motorController1 = new CANSparkMax(13, MotorType.kBrushless);
+        motorController1.setInverted(false); // Keeping left motor rotation the same
 
     }
 
-    public void set_speed(double value){
+    public void set_speed(double value) {
         motorController1.set(value);
     }
 

@@ -18,8 +18,10 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.WenchSubsystem;
 
 public class Wench extends Command {
-    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
     private final WenchSubsystem m_wench;
+
     public Wench(WenchSubsystem subsystem) {
         m_wench = subsystem;
         addRequirements(m_wench);
@@ -27,14 +29,15 @@ public class Wench extends Command {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-         m_wench.set_speed(0.4);
+        m_wench.set_speed(0.4);
     }
-    
+
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {

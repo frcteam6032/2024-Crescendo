@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-private CANSparkMax  motorController1;
-private CANSparkMax  motorController2;
-private DutyCycleEncoder m_DutyCycleEncoder;
-private DigitalInput dioInput;
+    private CANSparkMax motorController1;
+    private CANSparkMax motorController2;
+    private DutyCycleEncoder m_DutyCycleEncoder;
+    private DigitalInput dioInput;
 
     public IntakeSubsystem() {
         dioInput = new DigitalInput(1);
@@ -29,18 +29,19 @@ private DigitalInput dioInput;
         motorController1.setIdleMode(IdleMode.kBrake);
         motorController2.setIdleMode(IdleMode.kBrake);
         m_DutyCycleEncoder.reset();
-    }   
+    }
 
-     // New number system, called rodegrees (robot degrees) such that the max limit is 180
-    // Actaully dont mind the above comment dave insists on using the pivot of the arm as the orign.
-        public double getAngle() { 
+    // New number system, called rodegrees (robot degrees) such that the max limit
+    // is 180
+    // Actaully dont mind the above comment dave insists on using the pivot of the
+    // arm as the orign.
+    public double getAngle() {
         return m_DutyCycleEncoder.get() * 120;
     }
 
-
-  // High precision  acceleration control H.P.A.C
-    public void set_speed(double value){
-       System.out.println("Attempting to set speed: Value" + "[" + value + "]");
+    // High precision acceleration control H.P.A.C
+    public void set_speed(double value) {
+        System.out.println("Attempting to set speed: Value" + "[" + value + "]");
         System.out.println("Current Angle: " + getAngle());
 
         if (value > 0 && getAngle() < Constants.ArmConstants.max_limit) {
@@ -48,37 +49,33 @@ private DigitalInput dioInput;
 
             // Arm trying to go up
             if (Constants.ArmConstants.max_limit - getAngle() < 30) {
-                //Arm is close to max limit
+                // Arm is close to max limit
                 System.out.println("Setting speed Positive [reduced] (up)");
                 motorController1.set(0.1);
                 motorController2.set(0.1);
-            }
-            else {
-                //Arm is not close to max limit
+            } else {
+                // Arm is not close to max limit
                 motorController1.set(value);
                 motorController2.set(value);
             }
-        }
-        else if (value < 0 && getAngle() > Constants.ArmConstants.min_limit) {
-        System.out.println("Setting speed Negative [full] (down)");
-        // If the arm is near the min limit, reduce the speed
-        if (getAngle() <= Constants.ArmConstants.min_limit + 30) {
-                //Arm is close to min limit
+        } else if (value < 0 && getAngle() > Constants.ArmConstants.min_limit) {
+            System.out.println("Setting speed Negative [full] (down)");
+            // If the arm is near the min limit, reduce the speed
+            if (getAngle() <= Constants.ArmConstants.min_limit + 30) {
+                // Arm is close to min limit
                 System.out.println("Setting speed Negative [reduced] (down)");
                 motorController1.set(-0.1);
                 motorController2.set(-0.1);
-            }
-            else {
-                //Arm is not close to min limit
+            } else {
+                // Arm is not close to min limit
                 motorController1.set(value);
                 motorController2.set(value);
             }
-        }
-        else {
+        } else {
             System.out.println("Setting speed 0 (stop)");
             motorController1.set(0);
             motorController2.set(0);
-        
+
         }
 
     }
@@ -104,13 +101,9 @@ private DigitalInput dioInput;
         } else {
             // The DIO port is receiving low voltage
             return false;
-            }
+        }
     }
-    
 
-
-   
-   
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 

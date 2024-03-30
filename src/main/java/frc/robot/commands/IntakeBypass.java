@@ -17,9 +17,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
 
 public class IntakeBypass extends Command {
-    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
+
     public IntakeBypass(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
         m_intakeSubsystem = intakeSubsystem;
@@ -28,7 +30,8 @@ public class IntakeBypass extends Command {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override

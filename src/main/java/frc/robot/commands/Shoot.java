@@ -20,6 +20,7 @@ public class Shoot extends Command {
 
     private final ShooterSubsystem m_shooter;
     private final IntakeWheels m_intakeWheels;
+
     public Shoot(ShooterSubsystem subsystem, IntakeWheels intakeWheels) {
         m_shooter = subsystem;
         m_intakeWheels = intakeWheels;
@@ -37,7 +38,7 @@ public class Shoot extends Command {
     @Override
     public void execute() {
         // TODO Find the correct speed for the shooter to shoot for the speaker
-        //System.out.println("Shooter speed set to 0.5");
+        // System.out.println("Shooter speed set to 0.5");
     }
 
     // Called once the command ends or is interrupted.

@@ -21,7 +21,8 @@ import frc.robot.subsystems.IntakeWheels;
 
 // Only use this command when about to pick up a ring
 public class ScoreAmp extends Command {
-    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
 
@@ -40,28 +41,27 @@ public class ScoreAmp extends Command {
     // This is our accurate automatic intake system A.A.I.S
     @Override
     public void execute() {
-            // If we are within 2 degrees of 90, then we stop the arm
+        // If we are within 2 degrees of 90, then we stop the arm
 
         if (Math.abs(m_intakeSubsystem.getAngle() - Constants.ArmConstants.mid_limit) < 2) {
             m_intakeSubsystem.set_speed(0);
         }
-        // If we are greater than 90 degrees and less than the max limit, we will go backwards/down
-        else if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.mid_limit && m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
+        // If we are greater than 90 degrees and less than the max limit, we will go
+        // backwards/down
+        else if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.mid_limit
+                && m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
             m_intakeSubsystem.set_speed(-0.3);
         }
-        // If we are less than 90 degrees and greater than the min limit, we will go forwards/up
-        else if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.mid_limit && m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
+        // If we are less than 90 degrees and greater than the min limit, we will go
+        // forwards/up
+        else if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.mid_limit
+                && m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
             m_intakeSubsystem.set_speed(0.3);
-        }       
-        else 
-        {
+        } else {
             // If we are outside of the limits, we will stop the arm
             m_intakeSubsystem.set_speed(0);
 
         }
-
-   
-
 
     }
 

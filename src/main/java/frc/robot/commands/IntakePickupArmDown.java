@@ -17,8 +17,10 @@ import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakePickupArmDown extends Command {
-    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
     private final IntakeSubsystem m_intake;
+
     public IntakePickupArmDown(IntakeSubsystem subsystem) {
         m_intake = subsystem;
         addRequirements(m_intake);
@@ -26,16 +28,17 @@ public class IntakePickupArmDown extends Command {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
 
-       // if (m_intake.getAngle() > Constants.ArmConstants.min_limit) {
-           // System.out.println("[Command] IntakePickupArmDown: Setting speed to -0.3");
-         m_intake.set_speed(-0.4);
-        //}
+        // if (m_intake.getAngle() > Constants.ArmConstants.min_limit) {
+        // System.out.println("[Command] IntakePickupArmDown: Setting speed to -0.3");
+        m_intake.set_speed(-0.4);
+        // }
     }
 
     // Called once the command ends or is interrupted.

@@ -10,17 +10,16 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public class WenchSubsystem extends SubsystemBase {
 
-private CANSparkMax motorController1;
+    private CANSparkMax motorController1;
 
     public WenchSubsystem() {
- 
-    motorController1 = new CANSparkMax(14, MotorType.kBrushless);
-    motorController1.setInverted(false); // Keeping left motor rotation the same
 
+        motorController1 = new CANSparkMax(14, MotorType.kBrushless);
+        motorController1.setInverted(false); // Keeping left motor rotation the same
 
     }
 
-    public void set_speed(double value){
+    public void set_speed(double value) {
         motorController1.set(value);
     }
 

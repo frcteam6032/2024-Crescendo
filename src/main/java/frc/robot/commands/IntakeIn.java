@@ -17,9 +17,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
 
 public class IntakeIn extends Command {
-    // This will be the amount of time we'll set the wheels to run AFTER we detect a ring
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
+
     public IntakeIn(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
         m_intakeSubsystem = intakeSubsystem;
@@ -28,18 +30,18 @@ public class IntakeIn extends Command {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         if (m_intakeSubsystem.hasRing() == true) {
-                m_intakeWheels.set_speed(0);
+            m_intakeWheels.set_speed(0);
+        } else {
+            m_intakeWheels.set_speed(-0.5);
         }
-        else {
-        m_intakeWheels.set_speed(-0.5);
-        }
-        
+
     }
 
     // Called once the command ends or is interrupted.
