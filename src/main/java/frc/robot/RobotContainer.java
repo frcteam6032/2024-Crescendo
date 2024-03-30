@@ -209,7 +209,7 @@ public class RobotContainer {
         return m_limelight.getTargetDistance() * -1;
     }
 
-    public void normalizeAngle(double yaw) {
+    public void normalizeAnglek(double yaw) {
         m_robotDrive.normalizeAngle(yaw);
     }
 
