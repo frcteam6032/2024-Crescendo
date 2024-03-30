@@ -115,7 +115,7 @@ public class ComputerAlign extends Command {
             // Rotate the robot towards the target angle
             // Set the speed for rotation based on the angle difference
             // Signnum tells the robot to go left or right
-            velocity_R = Math.signum(angleDifference) * 0.5; // Constant rotation speed
+            velocity_R = Math.signum(angleDifference) * 0.2; // Constant rotation speed
         } else {
             // Stop the robot when aligned with the target angle
             velocity_R = 0;
