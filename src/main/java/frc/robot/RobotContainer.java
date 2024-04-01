@@ -144,8 +144,8 @@ public class RobotContainer {
         // Setting up driver commands
         new Trigger(m_driverController::getYButton).whileTrue(ComputerAligner);
         new Trigger(m_driverController::getAButton).onTrue(Commands.runOnce(() -> m_robotDrive.zeroHeading()));
-        new Trigger(m_driverController::getLeftBumper).onTrue(Commands.runOnce(() -> setDriveTypek(true)));
-        new Trigger(m_driverController::getRightBumper).onTrue(Commands.runOnce(() -> setDriveTypek(false)));
+      //  new Trigger(m_driverController::getLeftBumper).onTrue(Commands.runOnce(() -> setDriveTypek(true)));
+       // new Trigger(m_driverController::getRightBumper).onTrue(Commands.runOnce(() -> setDriveTypek(false)));
         // Setting up operator controls
         new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
         new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);

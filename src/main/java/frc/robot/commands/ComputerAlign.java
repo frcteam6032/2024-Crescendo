@@ -17,7 +17,7 @@ public class ComputerAlign extends Command {
         this.m_drivetrainSubsystem = drivetrainSubsystem;
         this.m_visionSubsystem = visionSubsystem;
 
-        addRequirements(drivetrainSubsystem);
+        addRequirements(drivetrainSubsystem, visionSubsystem);
     }
 
     // AKA our C.A.S.S (computer assisted semi-alignment system)

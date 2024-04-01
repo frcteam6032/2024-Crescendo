@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.sql.Driver;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.networktables.GenericEntry;
@@ -88,9 +90,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
+    // See if the robot is on the red or blue alliance
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    m_robotContainer.headingSet(180);
+    m_robotContainer.headingSet(180.0);
 
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -124,36 +128,39 @@ public class Robot extends TimedRobot {
   }
 
   // Limelight debug
-  GenericEntry rangeOnboardEntry = Shuffleboard.getTab("Competition")
-      .add("Target X Offset", 0)
-      .getEntry();
-  GenericEntry rangeOnboardEntry2 = Shuffleboard.getTab("Competition")
-      .add("Target Found", false)
-      .getEntry();
-  GenericEntry rangeOnboardEntry3 = Shuffleboard.getTab("Competition")
-      .add("Arm Angle", 0)
-      .getEntry();
-  GenericEntry robotYaw = Shuffleboard.getTab("Competition")
-      .add("Yaw", 0)
-      .getEntry();
+  /*
+   * GenericEntry rangeOnboardEntry = tab_competition
+   * .add("Target X Offset", 0)
+   * .getEntry();
+   * GenericEntry rangeOnboardEntry2 = tab_competition
+   * .add("Target Found", false)
+   * .getEntry();
+   * GenericEntry rangeOnboardEntry3 = tab_competition
+   * .add("Arm Angle", 0)
+   * .getEntry();
+   * GenericEntry robotYaw = tab_competition
+   * .add("Yaw", 0)
+   * .getEntry();
+   */
 
   // Competition tab
-  GenericEntry targetFound = Shuffleboard.getTab("Competition").add("Ready To Align", false).getEntry();
-  GenericEntry robotAligned = Shuffleboard.getTab("Competition").add("Robot Aligned", false).getEntry();
-  GenericEntry robotRing = Shuffleboard.getTab("Competition").add("Robot Has Ring", false).getEntry();
-  GenericEntry distance = Shuffleboard.getTab("Competition").add("Distance", 0).getEntry();
-  GenericEntry tagId = Shuffleboard.getTab("Competition").add("Tag ID", 0).getEntry();
+  GenericEntry targetFound = tab_competition.add("Target found", false).getEntry();
+  GenericEntry robotAligned = tab_competition.add("Robot Aligned", false).getEntry();
+  GenericEntry robotRing = tab_competition.add("Robot Has Ring", false).getEntry();
+  GenericEntry distance = tab_competition.add("Distance to target", 0).getEntry();
+  GenericEntry tagId = tab_competition.add("Target ID", 0).getEntry();
+  GenericEntry robotYaw = tab_competition.add("Yaw", 0).getEntry();
 
   // Toggle button
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    rangeOnboardEntry.setDouble(m_robotContainer.getLimelightX());
-    rangeOnboardEntry2.setBoolean(m_robotContainer.targetValid());
+    // rangeOnboardEntry.setDouble(m_robotContainer.getLimelightX());
+    // rangeOnboardEntry2.setBoolean(m_robotContainer.targetValid());
     targetFound.setBoolean(m_robotContainer.targetValid());
     robotAligned.setBoolean(m_robotContainer.isRobotAligned());
-    rangeOnboardEntry3.setDouble(m_robotContainer.getArmAngle());
+    // rangeOnboardEntry3.setDouble(m_robotContainer.getArmAngle());
     robotRing.setBoolean(m_robotContainer.hasRingR());
     robotYaw.setDouble(m_robotContainer.getYawR());
     distance.setDouble(m_robotContainer.getDistance());
@@ -162,7 +169,7 @@ public class Robot extends TimedRobot {
     // Normalize the robot heading
     // This will prevent the robot from reading over 360 degrees
     m_robotContainer.normalizeAnglek(m_robotContainer.getYawR());
-    m_robotContainer.updateDrive();
+   // m_robotContainer.updateDrive();
   }
 
   @Override
