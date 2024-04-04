@@ -13,39 +13,40 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeWheels;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.Constants;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class Shoot extends Command {
+public class IntakePickupArmUp extends Command {
+    // This will be the amount of time we'll set the wheels to run AFTER we detect a
+    // ring
+    private final IntakeSubsystem m_intake;
 
-    private final ShooterSubsystem m_shooter;
-    private final IntakeWheels m_intakeWheels;
-
-    public Shoot(ShooterSubsystem subsystem, IntakeWheels intakeWheels) {
-        m_shooter = subsystem;
-        m_intakeWheels = intakeWheels;
-        addRequirements(m_shooter, m_intakeWheels);
+    public IntakePickupArmUp(IntakeSubsystem subsystem) {
+        m_intake = subsystem;
+        addRequirements(m_intake);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_shooter.set_speed(0.90);
-        m_intakeWheels.set_speed(-0.5);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // TODO Find the correct speed for the shooter to shoot for the speaker
-        // System.out.println("Shooter speed set to 0.5");
+
+        // if (m_intake.getAngle() < Constants.ArmConstants.max_limit) {
+        // System.out.println("[Command] IntakePickupArmUp: Setting speed to 0.3");
+        m_intake.set_speed(0.4);
+        // }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_shooter.set_speed(0);
-        m_intakeWheels.set_speed(0.0);
+
+        // Here we will stop the intake wheels
+        m_intake.set_speed(0);
     }
 
     // Returns true when the command should end.

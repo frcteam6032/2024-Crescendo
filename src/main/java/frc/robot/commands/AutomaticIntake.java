@@ -20,13 +20,13 @@ import frc.robot.subsystems.IntakeWheels;
 // We are assuming that the arm will already be in the correct position to intake the ring
 
 // Only use this command when about to pick up a ring
-public class ScoreAmp extends Command {
+public class AutomaticIntake extends Command {
     // This will be the amount of time we'll set the wheels to run AFTER we detect a
     // ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
 
-    public ScoreAmp(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
+    public AutomaticIntake(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(m_intakeWheels, intakeSubsystem);
@@ -41,26 +41,37 @@ public class ScoreAmp extends Command {
     // This is our accurate automatic intake system A.A.I.S
     @Override
     public void execute() {
-        // If we are within 2 degrees of 90, then we stop the arm
+        // We are going to have a distance sensor to automatically take in the rings
 
-        if (Math.abs(m_intakeSubsystem.getAngle() - Constants.ArmConstants.mid_limit) < 2) {
-            m_intakeSubsystem.set_speed(0);
-        }
-        // If we are greater than 90 degrees and less than the max limit, we will go
-        // backwards/down
-        else if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.mid_limit
-                && m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
-            m_intakeSubsystem.set_speed(-0.3);
-        }
-        // If we are less than 90 degrees and greater than the min limit, we will go
-        // forwards/up
-        else if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.mid_limit
-                && m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
-            m_intakeSubsystem.set_speed(0.3);
+        // First we will put the intake wheels in reverse to take in the ring
+
+        // IF we find a ring, we will do the following process
+
+        // Then we will run the intake wheels for a set amount of time to ensure the
+        // ring is in the robot
+
+        if (m_intakeSubsystem.hasRing() == true) {
+
+            if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
+                System.out.println("Setting speed Negative [full] (down) [automatic]");
+                // If the arm is near the min limit, reduce the speed
+                if (m_intakeSubsystem.getAngle() <= Constants.ArmConstants.min_limit + 30) {
+                    // Arm is close to min limit
+                    System.out.println("Setting speed Negative [reduced] (down) [automatic]");
+                    m_intakeSubsystem.set_speed(-0.1);
+                    m_intakeSubsystem.set_speed(-0.1);
+                } else {
+                    // Arm is not close to min limit
+                    m_intakeSubsystem.set_speed(-0.2);
+                    m_intakeSubsystem.set_speed(-0.2);
+
+                }
+            }
+
         } else {
-            // If we are outside of the limits, we will stop the arm
+            System.out.println("Setting speed 0 (stop) [automatic]");
             m_intakeSubsystem.set_speed(0);
-
+            m_intakeSubsystem.set_speed(0);
         }
 
     }
@@ -71,12 +82,12 @@ public class ScoreAmp extends Command {
 
         // Here we will stop the intake wheels
         m_intakeSubsystem.set_speed(0);
-
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+
         return false;
     }
 

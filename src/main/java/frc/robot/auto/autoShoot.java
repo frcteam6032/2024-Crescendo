@@ -10,18 +10,18 @@
 
 // ROBOTBUILDER TYPE: Command.
 
-package frc.robot.commands;
+package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeWheels;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class Shoot extends Command {
+public class autoShoot extends Command {
+    private long startingTime;
 
     private final ShooterSubsystem m_shooter;
     private final IntakeWheels m_intakeWheels;
-
-    public Shoot(ShooterSubsystem subsystem, IntakeWheels intakeWheels) {
+    public autoShoot(ShooterSubsystem subsystem, IntakeWheels intakeWheels) {
         m_shooter = subsystem;
         m_intakeWheels = intakeWheels;
         addRequirements(m_shooter, m_intakeWheels);
@@ -30,6 +30,7 @@ public class Shoot extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        startingTime = System.currentTimeMillis();
         m_shooter.set_speed(0.90);
         m_intakeWheels.set_speed(-0.5);
     }
@@ -38,7 +39,7 @@ public class Shoot extends Command {
     @Override
     public void execute() {
         // TODO Find the correct speed for the shooter to shoot for the speaker
-        // System.out.println("Shooter speed set to 0.5");
+        //System.out.println("Shooter speed set to 0.5");
     }
 
     // Called once the command ends or is interrupted.
@@ -47,11 +48,13 @@ public class Shoot extends Command {
         m_shooter.set_speed(0);
         m_intakeWheels.set_speed(0.0);
     }
+    private final int MaxTime = 3000;
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        long elapsedTime = System.currentTimeMillis() - startingTime;
+        return elapsedTime > MaxTime ? true : false;
     }
 
     @Override
