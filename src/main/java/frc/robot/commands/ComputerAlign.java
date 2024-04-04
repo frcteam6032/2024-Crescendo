@@ -23,6 +23,7 @@ public class ComputerAlign extends Command {
     // AKA our C.A.S.S (computer assisted semi-alignment system)
 
     public void alignSide() {
+        // This is in degrees
         if (m_visionSubsystem.isTargetValid() == true) {
             // If were to the left, drive right
             if (m_visionSubsystem.getTX() < -3) {
@@ -86,12 +87,19 @@ public class ComputerAlign extends Command {
 
     public void alignYaw(double currentYaw) {
         // Get the position of the target in Cartesian coordinates
-        double targetX = m_visionSubsystem.getTX();
-        double targetY = m_visionSubsystem.getTY();
-        double targetZ = m_visionSubsystem.getTargetDistance() * -1; // Get distance
+        // This should be a distance in meters instead of a angle
+        double targetX = Trigonometry.distanceX(currentYaw, m_visionSubsystem.getTX());
+        // This is the Y-axis because of the way the camera is mounted
+        double targetY = m_visionSubsystem.getTargetDistance() * -1;
+        double targetZ = 0; // Get distance
         // Make positive
 
+
+
+
         // Convert Cartesian coordinates to spherical coordinates
+        // Since the distanceX relies on the targetY, the units of measure are already normalized
+        
         double[] sphericalCoordinates = Trigonometry.cartesianToSpherical(targetX, targetY, targetZ);
         double azimuth = sphericalCoordinates[0];
 

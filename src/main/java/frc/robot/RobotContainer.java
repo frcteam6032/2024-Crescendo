@@ -47,6 +47,7 @@ import java.util.List;
 import frc.robot.commands.AutomaticIntake; // Import the missing class
 import frc.robot.auto.autoDrive; // Import the missing class
 import frc.robot.auto.autoShoot;
+import frc.robot.auto.editAngle;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -87,6 +88,7 @@ public class RobotContainer {
 
     private final Command AutoDriver = new autoDrive(m_robotDrive);
     private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
+    private final Command AutoEditAngle = new editAngle(m_robotDrive);
 
     private final Command AutoDriver2 = new autoDrive(m_robotDrive);
     private final Command AutoShooter2 = new autoShoot(m_shooter, m_wheels);
@@ -110,7 +112,7 @@ public class RobotContainer {
         // m_chooser.addOption("Score AMP", null);
         m_chooser.addOption("Score Speaker", AutoShooter);
         // A combination of the two above
-        m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoDriver2));
+        m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoEditAngle).andThen(AutoDriver2));
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Competition")
