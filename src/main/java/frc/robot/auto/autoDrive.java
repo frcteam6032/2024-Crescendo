@@ -1,6 +1,8 @@
 package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Globals;
+import frc.robot.Globals.GlobalVars;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class autoDrive extends Command {
@@ -29,7 +31,23 @@ public class autoDrive extends Command {
 
     @Override
     public void execute() {
-        m_drivetrainSubsystem.drive(-0.5, 0, 0, false, false);
+        // 1 = middle
+        // 2 = left 
+        // 3 = right
+
+        final double autoSpeed = 0.5;
+
+        // Assumes speaker angle is 45deg (it's not)
+
+        if (Globals.GlobalVars.middleSpeaker == true) {
+            m_drivetrainSubsystem.drive(-1*autoSpeed, 0, 0, false, false);
+        }
+        else if (Globals.GlobalVars.leftSpeaker == true) {
+            m_drivetrainSubsystem.drive(-0.7071*autoSpeed, -0.7071*autoSpeed, 0, false, false);
+        }
+        else if (Globals.GlobalVars.rightSpeaker == true) {
+            m_drivetrainSubsystem.drive(-0.7071*autoSpeed, 0.7071*autoSpeed, 0, false, false);
+        }
     }
 
     @Override

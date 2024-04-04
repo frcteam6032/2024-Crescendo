@@ -42,7 +42,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.WenchSubsystem;
-
+import frc.robot.auto.setDriveType;
 import java.util.List;
 import frc.robot.commands.AutomaticIntake; // Import the missing class
 import frc.robot.auto.autoDrive; // Import the missing class
@@ -62,6 +62,8 @@ public class RobotContainer {
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final ShooterSubsystem m_shooter = new ShooterSubsystem();
     private final IntakeWheels m_wheels = new IntakeWheels();
+
+    private final setDriveType driveType = new setDriveType();
     // private final WenchSubsystem m_whench = new WenchSubsystem();
 
     // The driver's controller
@@ -95,6 +97,8 @@ public class RobotContainer {
 
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+    private final SendableChooser<Integer> drive_chooser = new SendableChooser<>();
+
     public void setDriveTypek(boolean resetYaw) {
         // Decides if the gyroscope should reset every 90 degrees
         Globals.GlobalVars.shouldYawReset = resetYaw;
@@ -114,10 +118,19 @@ public class RobotContainer {
         // A combination of the two above
         //m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoEditAngle).andThen(AutoDriver2));
 
+
+        drive_chooser.setDefaultOption("Middle Speaker", 1);
+        drive_chooser.addOption("Left Speaker", 2);
+        drive_chooser.addOption("Right speaker", 3);
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Competition")
                 .add("Auto Chooser", m_chooser)
                 .withPosition(6, 3)
+                .withSize(2, 1);
+        
+        Shuffleboard.getTab("Competition")
+                .add("Speaker Position", drive_chooser)
+                .withPosition(6, 4)
                 .withSize(2, 1);
 
         // Configure default commands
@@ -227,6 +240,7 @@ public class RobotContainer {
      */
 
     public Command getAutonomousCommand() {
+        driveType.setType(drive_chooser.getSelected());
         return m_chooser.getSelected();
         /*
          * // Create config for trajectory
