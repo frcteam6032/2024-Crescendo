@@ -53,6 +53,7 @@ public class ComputerAlign extends Command {
         // Distance is in meters
         double distance = m_visionSubsystem.getTargetDistance() * -1;
         double distanceThreshold = 1;
+        // Dynamically change the distance threshold based on the april tag ID. Some targets are closer than others and there are physical barriers
         if (m_visionSubsystem.isTargetValid() == false) {
             return;
         } else {
@@ -91,6 +92,8 @@ public class ComputerAlign extends Command {
         double targetX = Trigonometry.distanceX(currentYaw, m_visionSubsystem.getTX());
         // This is the Y-axis because of the way the camera is mounted
         double targetY = m_visionSubsystem.getTargetDistance() * -1;
+        // Multiply by -1 to make the distance positive, it was negative due to the way we are retieving the data from the limelight
+        // This would be the Z-corrdinate but technically we are in 2D space so the Y-axis is the Z-axis
         double targetZ = 0; // Get distance
         // Make positive
 
@@ -99,11 +102,11 @@ public class ComputerAlign extends Command {
 
         // Convert Cartesian coordinates to spherical coordinates
         // Since the distanceX relies on the targetY, the units of measure are already normalized
-        
+
         double[] sphericalCoordinates = Trigonometry.cartesianToSpherical(targetX, targetY, targetZ);
         double azimuth = sphericalCoordinates[0];
 
-        // Calculate the angle to align with based on azimuth
+        // Calculate the angle to align with based on azimuth (since we are in 3D space and want to get yaw, arctan is reversed)
         double angleToTarget = Math.toDegrees(azimuth);
 
         // Calculate the difference between current yaw and target angle
@@ -140,6 +143,8 @@ public class ComputerAlign extends Command {
         // Instead of having each method move the bot (which causes only one method to
         // run, we will have global velocity variables)
         if (m_visionSubsystem.isTargetValid() == true) {
+            // Call all of our methods to update our velocity variables
+            // Since this is in the "execute" method, it will run every tick and the globals will update constantly
             alignSide();
             alignDistance(m_visionSubsystem.getTargetID());
             alignYaw(m_drivetrainSubsystem.getHeading());
@@ -149,6 +154,7 @@ public class ComputerAlign extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        // After the command is finished, stop the robot (when the button is no longer pressed)
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
     }
 
