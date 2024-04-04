@@ -89,9 +89,10 @@ public class ComputerAlign extends Command {
     public void alignYaw(double currentYaw) {
         // Get the position of the target in Cartesian coordinates
         // This should be a distance in meters instead of a angle
-        double targetX = Trigonometry.distanceX(currentYaw, m_visionSubsystem.getTX());
-        // This is the Y-axis because of the way the camera is mounted
         double targetY = m_visionSubsystem.getTargetDistance() * -1;
+
+        double targetX = Trigonometry.distanceX(currentYaw, targetY);
+        // This is the Y-axis because of the way the camera is mounted
         // Multiply by -1 to make the distance positive, it was negative due to the way we are retieving the data from the limelight
         // This would be the Z-corrdinate but technically we are in 2D space so the Y-axis is the Z-axis
         double targetZ = 0; // Get distance
@@ -119,7 +120,7 @@ public class ComputerAlign extends Command {
             angleDifference += 360;
         }
 
-        final double kAngleThreshold = 3;
+        final double kAngleThreshold = 1.5;
 
         // Drive the robot based on the angle difference
         if (Math.abs(angleDifference) > kAngleThreshold) { // Adjust angle threshold

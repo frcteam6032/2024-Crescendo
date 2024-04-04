@@ -34,7 +34,7 @@ public class IntakeOut extends Command {
     @Override
     public void execute() {
 
-        m_intakeWheels.set_speed(0.5);
+        m_intakeWheels.set_speed(0.1);
     }
 
     // Called once the command ends or is interrupted.

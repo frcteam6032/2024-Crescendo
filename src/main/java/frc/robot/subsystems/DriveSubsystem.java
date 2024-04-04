@@ -228,7 +228,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getHeading() {
-    return m_gyro.getYaw();
+    double yaw = m_gyro.getYaw();
+    yaw = yaw % 360;
+    return yaw;
   }
 
   public void setHeading(double degree) {
@@ -258,14 +260,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
 
-  // Normalize the angle to be between 0 and 360 so that we dont have a yaw of
-  // 1000 LOL
-  public void normalizeAngle(double yaw) {
-    yaw = Math.floorMod((int) yaw, 360);
-    if (yaw < 0.0) {
-      yaw += 360.0;
-    }
-    m_gyro.setYaw(yaw);
-  }
+
 
 }

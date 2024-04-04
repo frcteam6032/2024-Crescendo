@@ -31,7 +31,7 @@ public class autoShoot extends Command {
     @Override
     public void initialize() {
         startingTime = System.currentTimeMillis();
-        m_shooter.set_speed(0.8);
+        m_shooter.set_speed(0.90);
         m_intakeWheels.set_speed(-0.5);
     }
 

@@ -112,7 +112,7 @@ public class RobotContainer {
         // m_chooser.addOption("Score AMP", null);
         m_chooser.addOption("Score Speaker", AutoShooter);
         // A combination of the two above
-        m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoEditAngle).andThen(AutoDriver2));
+        //m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoEditAngle).andThen(AutoDriver2));
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Competition")
@@ -211,9 +211,6 @@ public class RobotContainer {
         return m_limelight.getTargetDistance() * -1;
     }
 
-    public void normalizeAnglek(double yaw) {
-        m_robotDrive.normalizeAngle(yaw);
-    }
 
     public void updateDrive() {
         if (Globals.GlobalVars.shouldYawReset == true) {

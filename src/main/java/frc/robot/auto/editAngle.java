@@ -34,7 +34,7 @@ public class editAngle extends Command {
 
     @Override
     public void end(boolean interrupted) {
-    m_drivetrainSubsystem.drive(0, 0, 0.1, false, false);
+    m_drivetrainSubsystem.drive(0, 0, 0.0, false, false);
     }
 
 
