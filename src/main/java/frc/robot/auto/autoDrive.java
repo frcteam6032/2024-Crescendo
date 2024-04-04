@@ -36,17 +36,19 @@ public class autoDrive extends Command {
         // 3 = right
 
         final double autoSpeed = 0.5;
-
-        // Assumes speaker angle is 45deg (it's not)
+        final double speakerAngle = 30.0;
+        
+        final double x_Speed = Math.cos(speakerAngle)*autoSpeed;
+        final double y_Speed = Math.sin(speakerAngle)*autoSpeed;
 
         if (Globals.GlobalVars.middleSpeaker == true) {
             m_drivetrainSubsystem.drive(-1*autoSpeed, 0, 0, false, false);
         }
         else if (Globals.GlobalVars.leftSpeaker == true) {
-            m_drivetrainSubsystem.drive(-0.7071*autoSpeed, -0.7071*autoSpeed, 0, false, false);
+            m_drivetrainSubsystem.drive(-1*x_Speed, -1*y_Speed, 0, false, false);
         }
         else if (Globals.GlobalVars.rightSpeaker == true) {
-            m_drivetrainSubsystem.drive(-0.7071*autoSpeed, 0.7071*autoSpeed, 0, false, false);
+            m_drivetrainSubsystem.drive(-1*x_Speed, y_Speed, 0, false, false);
         }
     }
 
