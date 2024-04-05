@@ -37,7 +37,7 @@ public class IntakePickupArmUp extends Command {
 
         // if (m_intake.getAngle() < Constants.ArmConstants.max_limit) {
         // System.out.println("[Command] IntakePickupArmUp: Setting speed to 0.3");
-        m_intake.set_speed(0.6);
+        m_intake.set_speed(0.6*3);
         // }
     }
 

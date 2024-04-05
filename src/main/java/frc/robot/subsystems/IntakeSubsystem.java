@@ -48,8 +48,8 @@ public class IntakeSubsystem extends SubsystemBase {
             // Arm trying to go up
             if (Constants.ArmConstants.max_limit - getAngle() < 40) {
                 // Arm is close to max limit
-                motorController1.set(0.1);
-                motorController2.set(0.1);
+                motorController1.set(0.1*3);
+                motorController2.set(0.1*3);
             } else {
                 // Arm is not close to max limit
                 motorController1.set(value);
@@ -59,8 +59,8 @@ public class IntakeSubsystem extends SubsystemBase {
             // If the arm is near the min limit, reduce the speed
             if (getAngle() <= Constants.ArmConstants.min_limit + 40) {
                 // Arm is close to min limit
-                motorController1.set(-0.1);
-                motorController2.set(-0.1);
+                motorController1.set(-0.1*3);
+                motorController2.set(-0.1*3);
             } else {
                 // Arm is not close to min limit
                 motorController1.set(value);
