@@ -48,6 +48,7 @@ import frc.robot.commands.AutomaticIntake; // Import the missing class
 import frc.robot.auto.autoDrive; // Import the missing class
 import frc.robot.auto.autoShoot;
 import frc.robot.auto.editAngle;
+import frc.robot.auto.multiNote;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -91,6 +92,7 @@ public class RobotContainer {
     private final Command AutoDriver = new autoDrive(m_robotDrive);
     private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
     private final Command AutoEditAngle = new editAngle(m_robotDrive);
+    private final Command MultiNoteAuto = new multiNote(m_robotDrive, m_shooter, m_intake, m_wheels);
 
     private final Command AutoDriver2 = new autoDrive(m_robotDrive);
     private final Command AutoShooter2 = new autoShoot(m_shooter, m_wheels);
@@ -115,6 +117,7 @@ public class RobotContainer {
         m_chooser.addOption("Leave Auto", AutoDriver);
         // m_chooser.addOption("Score AMP", null);
         m_chooser.addOption("Score Speaker", AutoShooter);
+        m_chooser.addOption("Multi Note", MultiNoteAuto);
         // A combination of the two above
         //m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoEditAngle).andThen(AutoDriver2));
 
