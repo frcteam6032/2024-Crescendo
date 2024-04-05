@@ -58,14 +58,20 @@ public class AutomaticIntake extends Command {
                 if (m_intakeSubsystem.getAngle() <= Constants.ArmConstants.min_limit + 30) {
                     // Arm is close to min limit
                     System.out.println("Setting speed Negative [reduced] (down) [automatic]");
-                    m_intakeSubsystem.set_speed(-0.1);
-                    m_intakeSubsystem.set_speed(-0.1);
+                    m_intakeSubsystem.set_speed(-0.1*3);
+                    m_intakeSubsystem.set_speed(-0.1*3);
                 } else {
                     // Arm is not close to min limit
-                    m_intakeSubsystem.set_speed(-0.2);
-                    m_intakeSubsystem.set_speed(-0.2);
+                    m_intakeSubsystem.set_speed(-0.6*3);
+                    m_intakeSubsystem.set_speed(-0.6*3);
 
                 }
+            }
+            else {
+                // Added this else - min limit wasn't working with Note load back button
+                System.out.println("Setting speed 0 (stop) [automatic]");
+                m_intakeSubsystem.set_speed(0);
+                m_intakeSubsystem.set_speed(0);
             }
 
         } else {

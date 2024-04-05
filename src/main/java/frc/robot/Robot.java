@@ -152,6 +152,7 @@ public class Robot extends TimedRobot {
   GenericEntry tagId = tab_competition.add("Target ID", 0).getEntry();
   GenericEntry robotYaw = tab_competition.add("Yaw", 0).getEntry();
   GenericEntry armDown = tab_competition.add("Arm Down", true).getEntry();
+  GenericEntry armAngle = tab_competition.add("Arm Angle", 0).getEntry();
 
   // Toggle button
 
@@ -168,6 +169,7 @@ public class Robot extends TimedRobot {
     distance.setDouble(m_robotContainer.getDistance());
     tagId.setDouble(m_robotContainer.getAprilTagID());
     armDown.setBoolean(m_robotContainer.getArmDown());
+    armAngle.setDouble(m_robotContainer.getArmAngle());
 
     // Normalize the robot heading
     // This will prevent the robot from reading over 360 degrees
