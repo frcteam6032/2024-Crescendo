@@ -45,8 +45,8 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    tab_competition.add(camera).withSize(6, 4);
-    camera.setResolution(240, 240);
+    camera.setResolution(160, 120);
+    tab_competition.add(camera).withSize(6, 4);    
     // Set the position of the robot to be inverted so that the robot drive
     // backwards
     m_robotContainer.headingSet(180);
@@ -151,6 +151,7 @@ public class Robot extends TimedRobot {
   GenericEntry distance = tab_competition.add("Distance to target", 0).getEntry();
   GenericEntry tagId = tab_competition.add("Target ID", 0).getEntry();
   GenericEntry robotYaw = tab_competition.add("Yaw", 0).getEntry();
+  GenericEntry armDown = tab_competition.add("Arm Down", true).getEntry();
 
   // Toggle button
 
@@ -166,6 +167,7 @@ public class Robot extends TimedRobot {
     robotYaw.setDouble(m_robotContainer.getYawR());
     distance.setDouble(m_robotContainer.getDistance());
     tagId.setDouble(m_robotContainer.getAprilTagID());
+    armDown.setBoolean(m_robotContainer.getArmDown());
 
     // Normalize the robot heading
     // This will prevent the robot from reading over 360 degrees
