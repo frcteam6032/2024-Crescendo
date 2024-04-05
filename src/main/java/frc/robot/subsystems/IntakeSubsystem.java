@@ -41,16 +41,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // High precision acceleration control H.P.A.C
     public void set_speed(double value) {
-        System.out.println("Attempting to set speed: Value" + "[" + value + "]");
-        System.out.println("Current Angle: " + getAngle());
+       
 
         if (value > 0 && getAngle() < Constants.ArmConstants.max_limit) {
-            System.out.println("Setting speed Positive [full] (up)");
 
             // Arm trying to go up
             if (Constants.ArmConstants.max_limit - getAngle() < 40) {
                 // Arm is close to max limit
-                System.out.println("Setting speed Positive [reduced] (up)");
                 motorController1.set(0.1);
                 motorController2.set(0.1);
             } else {
@@ -59,11 +56,9 @@ public class IntakeSubsystem extends SubsystemBase {
                 motorController2.set(value);
             }
         } else if (value < 0 && getAngle() > Constants.ArmConstants.min_limit) {
-            System.out.println("Setting speed Negative [full] (down)");
             // If the arm is near the min limit, reduce the speed
             if (getAngle() <= Constants.ArmConstants.min_limit + 40) {
                 // Arm is close to min limit
-                System.out.println("Setting speed Negative [reduced] (down)");
                 motorController1.set(-0.1);
                 motorController2.set(-0.1);
             } else {
@@ -72,7 +67,6 @@ public class IntakeSubsystem extends SubsystemBase {
                 motorController2.set(value);
             }
         } else {
-            System.out.println("Setting speed 0 (stop)");
             motorController1.set(0);
             motorController2.set(0);
 
@@ -100,6 +94,15 @@ public class IntakeSubsystem extends SubsystemBase {
             return true;
         } else {
             // The DIO port is receiving low voltage
+            return false;
+        }
+    }
+
+    public boolean isArmDown() {
+        if (getAngle() < 1.5) {
+            return true;
+        }
+        else {
             return false;
         }
     }
