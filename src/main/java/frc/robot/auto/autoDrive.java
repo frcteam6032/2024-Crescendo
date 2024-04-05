@@ -36,7 +36,7 @@ public class autoDrive extends Command {
         // 3 = right
 
         final double autoSpeed = 0.5;
-        final double speakerAngle = 30.0;
+        final double speakerAngle = 60.0 * (Math.PI / 180);
         
         final double x_Speed = Math.cos(speakerAngle)*autoSpeed;
         final double y_Speed = Math.sin(speakerAngle)*autoSpeed;
