@@ -30,7 +30,7 @@ public class Shoot extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_shooter.set_speed(0.90);
+        m_shooter.set_speed(0.95);
         m_intakeWheels.set_speed(-0.5);
     }
 
