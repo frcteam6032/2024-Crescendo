@@ -52,30 +52,54 @@ public class ComputerAlign extends Command {
         // Make positive
         // Distance is in meters
         double distance = m_visionSubsystem.getTargetDistance() * -1;
+        if (distance == -0 || distance < 0) {
+            distance = 0;
+            return;
+        }
         double distanceThreshold = 1;
         // Dynamically change the distance threshold based on the april tag ID. Some targets are closer than others and there are physical barriers
         if (m_visionSubsystem.isTargetValid() == false) {
             velocity_X = 0;
             return;
         } else {
-            if (aprilTagID == 6 || aprilTagID == 5) {
-                distanceThreshold = 0.5;
+            if (aprilTagID == 6) {
+                distanceThreshold = 0.8;
                 if (distance > distanceThreshold) {
                     velocity_X = 0.1;
                 } else {
                     velocity_X = 0;
                     return;
                 }
-            } else if (aprilTagID == 7 || aprilTagID == 4) {
-                distanceThreshold = 4;
+            } 
+            else if (aprilTagID == 5) {
+            if (distance > distanceThreshold) {
+                    velocity_X = 0.1;
+                } else {
+                    velocity_X = 0;
+                    return;
+                }
+            }
+            else if (aprilTagID == 7) {
+                distanceThreshold = 2;
                 if (distance > distanceThreshold) {
                     velocity_X = 0.1;
                 } else {
                     velocity_X = 0;
                     return;
                 }
-            } else {
-                distanceThreshold = 0.5;
+            } 
+            
+            else if (aprilTagID == 4) {
+                distanceThreshold = 2;
+                if (distance > distanceThreshold) {
+                    velocity_X = 0.1;
+                } else {
+                    velocity_X = 0;
+                    return;
+                }
+            }  
+            else {
+                distanceThreshold = 0.8;
                 if (distance > distanceThreshold) {
                     velocity_X = 0.1;
                 } else {
@@ -89,7 +113,8 @@ public class ComputerAlign extends Command {
 
     public void alignYaw(double currentYaw) {
         if (m_visionSubsystem.isTargetValid() == false) {
-            velocity_R =0;
+            velocity_R = 0;
+            return;
         }
 
         // Get the position of the target in Cartesian coordinates
@@ -125,14 +150,14 @@ public class ComputerAlign extends Command {
             angleDifference += 360;
         }
 
-        final double kAngleThreshold = 1.5;
+        final double kAngleThreshold = 1;
 
         // Drive the robot based on the angle difference
         if (Math.abs(angleDifference) > kAngleThreshold) { // Adjust angle threshold
             // Rotate the robot towards the target angle
             // Set the speed for rotation based on the angle difference
             // Signnum tells the robot to go left or right
-            velocity_R = Math.signum(angleDifference) * 0.2; // Constant rotation speed
+            velocity_R = Math.signum(angleDifference) * 0.5; // Constant rotation speed
         } else {
             // Stop the robot when aligned with the target angle
             velocity_R = 0;
