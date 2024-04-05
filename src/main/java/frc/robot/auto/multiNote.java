@@ -48,12 +48,14 @@ public class multiNote extends Command {
             m_intakeWheels.set_speed(-0.5);
         }
         else if (elapsedTime < 2000) {
+            m_shooterSubsystem.set_speed(0);
+            m_intakeWheels.set_speed(0);
             m_drivetrainSubsystem.drive(0, 0, 0.5, false, false);
         }
         else if (elapsedTime < 3000) {
-            if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
-                m_intakeSubsystem.set_speed(0.4);
-            }
+            //if (m_intakeSubsystem.getAngle() < Constants.ArmConstants.max_limit) {
+              //  m_intakeSubsystem.set_speed(0.4);
+            //}
         }
         else if (elapsedTime < 4000) {
         m_drivetrainSubsystem.drive(0.5, 0, 0, false, false);
@@ -62,9 +64,10 @@ public class multiNote extends Command {
         }
         }
         else if (elapsedTime < 5000) {
-        if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
-                m_intakeSubsystem.set_speed(-0.4);
-            }
+        m_intakeWheels.set_speed(0);
+        //if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
+          //      m_intakeSubsystem.set_speed(-0.4);
+            //}
         }
         else if (elapsedTime < 6000) {
             m_drivetrainSubsystem.drive(0, 0, 0.5, false, false);
@@ -81,6 +84,10 @@ public class multiNote extends Command {
     @Override
     public void end(boolean interrupted) {
     m_drivetrainSubsystem.drive(0, 0, 0.0, false, false);
+    m_shooterSubsystem.set_speed(0);
+    m_intakeWheels.set_speed(0);
+    m_intakeSubsystem.set_speed(0);
+
     }
 
 
