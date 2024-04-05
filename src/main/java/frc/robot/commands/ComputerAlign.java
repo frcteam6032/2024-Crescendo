@@ -55,6 +55,7 @@ public class ComputerAlign extends Command {
         double distanceThreshold = 1;
         // Dynamically change the distance threshold based on the april tag ID. Some targets are closer than others and there are physical barriers
         if (m_visionSubsystem.isTargetValid() == false) {
+            velocity_X = 0;
             return;
         } else {
             if (aprilTagID == 6 || aprilTagID == 5) {
@@ -87,6 +88,10 @@ public class ComputerAlign extends Command {
     }
 
     public void alignYaw(double currentYaw) {
+        if (m_visionSubsystem.isTargetValid() == false) {
+            velocity_R =0;
+        }
+
         // Get the position of the target in Cartesian coordinates
         // This should be a distance in meters instead of a angle
         double targetY = m_visionSubsystem.getTargetDistance() * -1;

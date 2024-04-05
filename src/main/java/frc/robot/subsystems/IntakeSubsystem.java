@@ -48,7 +48,7 @@ public class IntakeSubsystem extends SubsystemBase {
             System.out.println("Setting speed Positive [full] (up)");
 
             // Arm trying to go up
-            if (Constants.ArmConstants.max_limit - getAngle() < 30) {
+            if (Constants.ArmConstants.max_limit - getAngle() < 40) {
                 // Arm is close to max limit
                 System.out.println("Setting speed Positive [reduced] (up)");
                 motorController1.set(0.1);
@@ -61,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
         } else if (value < 0 && getAngle() > Constants.ArmConstants.min_limit) {
             System.out.println("Setting speed Negative [full] (down)");
             // If the arm is near the min limit, reduce the speed
-            if (getAngle() <= Constants.ArmConstants.min_limit + 30) {
+            if (getAngle() <= Constants.ArmConstants.min_limit + 40) {
                 // Arm is close to min limit
                 System.out.println("Setting speed Negative [reduced] (down)");
                 motorController1.set(-0.1);
