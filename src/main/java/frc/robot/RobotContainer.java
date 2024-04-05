@@ -125,12 +125,12 @@ public class RobotContainer {
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Competition")
                 .add("Auto Chooser", m_chooser)
-                .withPosition(6, 3)
+                .withPosition(8, 1)
                 .withSize(2, 1);
         
         Shuffleboard.getTab("Competition")
                 .add("Speaker Position", drive_chooser)
-                .withPosition(6, 4)
+                .withPosition(8, 2)
                 .withSize(2, 1);
 
         // Configure default commands
@@ -233,6 +233,9 @@ public class RobotContainer {
         }
     }
 
+    public boolean getArmDown() {
+        return m_intake.isArmDown() == true ? true : false;
+    }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
