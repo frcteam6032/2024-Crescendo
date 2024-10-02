@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.Constants;
 import frc.robot.mathHelpers.Trigonometry;
 
 public class ComputerAlign extends Command {
@@ -20,172 +21,135 @@ public class ComputerAlign extends Command {
         addRequirements(drivetrainSubsystem, visionSubsystem);
     }
 
-    // AKA our C.A.S.S (computer assisted semi-alignment system)
+    // Computer Assisted Semi-Alignment System (C.A.S.S)
 
     public void alignSide() {
-        // This is in degrees
-        if (m_visionSubsystem.isTargetValid() == true) {
-            // If were to the left, drive right
-            if (m_visionSubsystem.getTX() < -3) {
-                velocity_Y = 0.1;
-            }
-            // If we're to the right, drive left
-            else if (m_visionSubsystem.getTX() > 3) {
-                velocity_Y = -0.1;
+        if (m_visionSubsystem.isTargetValid()) {
+            double tx = m_visionSubsystem.getTX();
+            double kP = 0.05; // Proportional constant for side alignment
+            double error = tx;
+
+            if (Math.abs(error) > 3) { // Threshold in degrees
+                // Adjust velocity based on error
+                velocity_Y = -kP * error;
+                // Limit maximum speed
+                velocity_Y = Math.max(Math.min(velocity_Y, 0.3), -0.3);
             } else {
                 velocity_Y = 0;
-                return;
             }
-
         } else {
             velocity_Y = 0;
         }
-        return;
     }
 
     public void alignDistance(int aprilTagID) {
-        // This will change depending on the april tag
-
-        // Amp ids = 6, 5
-        // Speaker ids = 7, 4
-
-        // Make positive
-        // Distance is in meters
-        double distance = m_visionSubsystem.getTargetDistance() * -1;
-        if (distance == -0 || distance < 0) {
-            distance = 0;
-            return;
-        }
-        double distanceThreshold = 1;
-        // Dynamically change the distance threshold based on the april tag ID. Some targets are closer than others and there are physical barriers
-        if (m_visionSubsystem.isTargetValid() == false) {
-            velocity_X = 0;
-            return;
-        } else {
-            if (aprilTagID == 6) {
-                distanceThreshold = 0.8;
-                if (distance > distanceThreshold) {
-                    velocity_X = 0.1;
-                } else {
-                    velocity_X = 0;
-                    return;
-                }
-            } 
-            else if (aprilTagID == 5) {
-            if (distance > distanceThreshold) {
-                    velocity_X = 0.1;
-                } else {
-                    velocity_X = 0;
-                    return;
-                }
-            }
-            else if (aprilTagID == 7) {
-                distanceThreshold = 2;
-                if (distance > distanceThreshold) {
-                    velocity_X = 0.1;
-                } else {
-                    velocity_X = 0;
-                    return;
-                }
-            } 
-            
-            else if (aprilTagID == 4) {
-                distanceThreshold = 2;
-                if (distance > distanceThreshold) {
-                    velocity_X = 0.1;
-                } else {
-                    velocity_X = 0;
-                    return;
-                }
-            }  
-            else {
-                distanceThreshold = 0.8;
-                if (distance > distanceThreshold) {
-                    velocity_X = 0.1;
-                } else {
-                    velocity_X = 0;
-                    return;
-                }
-            }
-        }
-        return;
+        /*
+         * / // Get the target distance in meters
+         * double distance = Math.abs(m_visionSubsystem.getTargetDistance());
+         * 
+         * if (distance <= 0 || !m_visionSubsystem.isTargetValid()) {
+         * velocity_X = 0;
+         * return;
+         * }
+         * 
+         * // Set distanceThreshold based on aprilTagID
+         * double distanceThreshold;
+         * switch (aprilTagID) {
+         * case 6:
+         * distanceThreshold = 0.8;
+         * break;
+         * case 5:
+         * distanceThreshold = 1.0;
+         * break;
+         * case 7:
+         * case 4:
+         * distanceThreshold = 2.0;
+         * break;
+         * default:
+         * distanceThreshold = 0.8;
+         * break;
+         * }
+         * 
+         * double error = distance - distanceThreshold;
+         * 
+         * if (error > 0) {
+         * double kP = 0.1; // Proportional constant for distance alignment
+         * velocity_X = kP * error;
+         * // Limit maximum speed
+         * velocity_X = Math.min(velocity_X, 0.3);
+         * } else {
+         * velocity_X = 0;
+         * }
+         */
+        double kP = 0.1;
+        double distanceVelocity = kP * m_visionSubsystem.getTY();
+        distanceVelocity *= Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+        distanceVelocity *= -1.0;
+        velocity_X = distanceVelocity;
     }
 
     public void alignYaw(double currentYaw) {
-        if (m_visionSubsystem.isTargetValid() == false) {
-            velocity_R = 0;
-            return;
-        }
+        /*
+         * if (!m_visionSubsystem.isTargetValid()) {
+         * velocity_R = 0;
+         * return;
+         * }
+         * 
+         * // Get the target distance
+         * double targetY = Math.abs(m_visionSubsystem.getTargetDistance());
+         * 
+         * // Ensure angle is in degrees and convert to radians where necessary
+         * double targetX = Trigonometry.distanceX(currentYaw, targetY);
+         * 
+         * double targetZ = 0;
+         * 
+         * // Convert Cartesian coordinates to spherical coordinates
+         * double[] sphericalCoordinates = Trigonometry.cartesianToSpherical(targetX,
+         * targetY, targetZ);
+         * double azimuthRadians = sphericalCoordinates[0];
+         * double angleToTarget = Math.toDegrees(azimuthRadians);
+         * 
+         * // Calculate the difference between current yaw and target angle
+         * double angleDifference = angleToTarget - currentYaw;
+         * 
+         * // Normalize angleDifference to be within -180 to 180 degrees
+         * angleDifference = ((angleDifference + 180) % 360) - 180;
+         * 
+         * final double kAngleThreshold = 1; // Degrees
+         * 
+         * if (Math.abs(angleDifference) > kAngleThreshold) {
+         * double kP = 0.01; // Proportional constant for rotation
+         * velocity_R = kP * angleDifference;
+         * // Limit maximum rotation speed
+         * velocity_R = Math.max(Math.min(velocity_R, 0.5), -0.5);
+         * } else {
+         * velocity_R = 0;
+         * }
+         */
 
-        // Get the position of the target in Cartesian coordinates
-        // This should be a distance in meters instead of a angle
-        double targetY = m_visionSubsystem.getTargetDistance() * -1;
-
-        double targetX = Trigonometry.distanceX(currentYaw, targetY);
-        // This is the Y-axis because of the way the camera is mounted
-        // Multiply by -1 to make the distance positive, it was negative due to the way we are retieving the data from the limelight
-        // This would be the Z-corrdinate but technically we are in 2D space so the Y-axis is the Z-axis
-        double targetZ = 0; // Get distance
-        // Make positive
-
-
-
-
-        // Convert Cartesian coordinates to spherical coordinates
-        // Since the distanceX relies on the targetY, the units of measure are already normalized
-
-        double[] sphericalCoordinates = Trigonometry.cartesianToSpherical(targetX, targetY, targetZ);
-        double azimuth = sphericalCoordinates[0];
-
-        // Calculate the angle to align with based on azimuth (since we are in 3D space and want to get yaw, arctan is reversed)
-        double angleToTarget = Math.toDegrees(azimuth);
-
-        // Calculate the difference between current yaw and target angle
-        double angleDifference = angleToTarget - currentYaw;
-
-        // The difference is between -180 and 180 degrees
-        if (angleDifference > 180) {
-            angleDifference -= 360;
-        } else if (angleDifference <= -180) {
-            angleDifference += 360;
-        }
-
-        final double kAngleThreshold = 1;
-
-        // Drive the robot based on the angle difference
-        if (Math.abs(angleDifference) > kAngleThreshold) { // Adjust angle threshold
-            // Rotate the robot towards the target angle
-            // Set the speed for rotation based on the angle difference
-            // Signnum tells the robot to go left or right
-            velocity_R = Math.signum(angleDifference) * 0.5; // Constant rotation speed
-        } else {
-            // Stop the robot when aligned with the target angle
-            velocity_R = 0;
-            // AKA when theta is less than 3 degrees
-            return;
-        }
-
-        // Return false if not aligned
-        return;
+        double kP = 0.035;
+        double angleVelocity = kP * m_visionSubsystem.getTX();
+        angleVelocity *= Constants.DriveConstants.kMaxAngularSpeed;
+        angleVelocity *= -1.0;
+        velocity_R = angleVelocity;
     }
 
     @Override
     public void execute() {
-        // Instead of having each method move the bot (which causes only one method to
-        // run, we will have global velocity variables)
-        if (m_visionSubsystem.isTargetValid() == true) {
-            // Call all of our methods to update our velocity variables
-            // Since this is in the "execute" method, it will run every tick and the globals will update constantly
+        if (m_visionSubsystem.isTargetValid()) {
             alignSide();
             alignDistance(m_visionSubsystem.getTargetID());
             alignYaw(m_drivetrainSubsystem.getHeading());
             m_drivetrainSubsystem.drive(velocity_X, velocity_Y, velocity_R, false, false);
+        } else {
+            // Stop the robot if the target is not valid
+            m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        // After the command is finished, stop the robot (when the button is no longer pressed)
+        // Stop the robot when the command ends
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
     }
 
@@ -193,5 +157,4 @@ public class ComputerAlign extends Command {
     public boolean isFinished() {
         return false;
     }
-
 }

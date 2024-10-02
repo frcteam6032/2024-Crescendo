@@ -14,6 +14,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Logging.Logger;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeWheels;
 
@@ -25,6 +26,8 @@ public class AutomaticIntake extends Command {
     // ring
     private final IntakeWheels m_intakeWheels;
     private final IntakeSubsystem m_intakeSubsystem;
+
+    Logger logger = new Logger();
 
     public AutomaticIntake(IntakeWheels subsystem, IntakeSubsystem intakeSubsystem) {
         m_intakeWheels = subsystem;
@@ -53,29 +56,34 @@ public class AutomaticIntake extends Command {
         if (m_intakeSubsystem.hasRing() == true) {
 
             if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
-                System.out.println("Setting speed Negative [full] (down) [automatic]");
+                logger.info("The arm angle is [%.1f] degrees moving [backwards] [Full Speed] [Computer Controlled]",
+                        m_intakeSubsystem.getAngle());
+
                 // If the arm is near the min limit, reduce the speed
                 if (m_intakeSubsystem.getAngle() <= Constants.ArmConstants.min_limit + 30) {
                     // Arm is close to min limit
-                    System.out.println("Setting speed Negative [reduced] (down) [automatic]");
-                    m_intakeSubsystem.set_speed(-0.1*3);
-                    m_intakeSubsystem.set_speed(-0.1*3);
+                    logger.info(
+                            "The arm angle is [%.1f] degrees moving [backwards] [Reduced Speed] [Computer Controlled]",
+                            m_intakeSubsystem.getAngle());
+                    m_intakeSubsystem.set_speed(-0.1 * 3);
+                    m_intakeSubsystem.set_speed(-0.1 * 3);
                 } else {
                     // Arm is not close to min limit
-                    m_intakeSubsystem.set_speed(-0.6*3);
-                    m_intakeSubsystem.set_speed(-0.6*3);
+                    m_intakeSubsystem.set_speed(-0.6 * 3);
+                    m_intakeSubsystem.set_speed(-0.6 * 3);
 
                 }
-            }
-            else {
+            } else {
                 // Added this else - min limit wasn't working with Note load back button
-                System.out.println("Setting speed 0 (stop) [automatic]");
+                logger.info("The arm angle is [%.1f] degrees moving [NONE] [NO SPEED] [Computer Controlled]",
+                        m_intakeSubsystem.getAngle());
                 m_intakeSubsystem.set_speed(0);
                 m_intakeSubsystem.set_speed(0);
             }
 
         } else {
-            System.out.println("Setting speed 0 (stop) [automatic]");
+            logger.info("The arm angle is [%.1f] degrees moving [NONE] [NO SPEED] [Computer Controlled]",
+                    m_intakeSubsystem.getAngle());
             m_intakeSubsystem.set_speed(0);
             m_intakeSubsystem.set_speed(0);
         }
