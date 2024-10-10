@@ -6,5 +6,6 @@ public class Globals {
         public static boolean leftSpeaker = false;
         public static boolean rightSpeaker = false;
         public static boolean middleSpeaker = true;
+        public static boolean automaticFire = false;
     }
 }

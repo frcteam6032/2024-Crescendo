@@ -31,7 +31,6 @@ import frc.robot.auto.setDriveType;
 import frc.robot.commands.AutomaticIntake; // Import the missing class
 import frc.robot.auto.autoDrive; // Import the missing class
 import frc.robot.auto.autoShoot;
-import frc.robot.auto.editAngle;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -40,6 +39,8 @@ import frc.robot.auto.editAngle;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    boolean should_autoFire = false;
+
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final VisionSubsystem m_limelight = new VisionSubsystem();
@@ -74,20 +75,14 @@ public class RobotContainer {
 
     private final Command AutoDriver = new autoDrive(m_robotDrive);
     private final Command AutoShooter = new autoShoot(m_shooter, m_wheels);
-    private final Command AutoEditAngle = new editAngle(m_robotDrive);
 
-    private final Command AutoDriver2 = new autoDrive(m_robotDrive);
-    private final Command AutoShooter2 = new autoShoot(m_shooter, m_wheels);
+    private final Command trigger_shooter = new autoShoot(m_shooter, m_wheels);
 
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-    private final SendableChooser<Integer> drive_chooser = new SendableChooser<>();
+    private final SendableChooser<Boolean> triggerBot_chooser = new SendableChooser<>();
 
-    public void setDriveTypek(boolean resetYaw) {
-        // Decides if the gyroscope should reset every 90 degrees
-        Globals.GlobalVars.shouldYawReset = resetYaw;
-        return;
-    }
+    private final SendableChooser<Integer> drive_chooser = new SendableChooser<>();
 
     public RobotContainer() {
         // Configure the button bindings
@@ -100,8 +95,11 @@ public class RobotContainer {
         // m_chooser.addOption("Score AMP", null);
         m_chooser.addOption("Score Speaker", AutoShooter);
         // A combination of the two above
-        //m_chooser.addOption("Score Speaker and leave", (AutoShooter2.withTimeout(4)).andThen(AutoEditAngle).andThen(AutoDriver2));
+        // m_chooser.addOption("Score Speaker and leave",
+        // (AutoShooter2.withTimeout(4)).andThen(AutoEditAngle).andThen(AutoDriver2));
 
+        triggerBot_chooser.setDefaultOption("Auto-Fire Disabled", false);
+        triggerBot_chooser.addOption("Auto-Fire Enabled", true);
 
         drive_chooser.setDefaultOption("Middle Speaker", 1);
         drive_chooser.addOption("Left Speaker", 2);
@@ -111,7 +109,7 @@ public class RobotContainer {
                 .add("Auto Chooser", m_chooser)
                 .withPosition(8, 1)
                 .withSize(2, 1);
-        
+
         Shuffleboard.getTab("Competition")
                 .add("Speaker Position", drive_chooser)
                 .withPosition(8, 2)
@@ -143,8 +141,10 @@ public class RobotContainer {
         // Setting up driver commands
         new Trigger(m_driverController::getYButton).whileTrue(ComputerAligner);
         new Trigger(m_driverController::getAButton).onTrue(Commands.runOnce(() -> m_robotDrive.zeroHeading()));
-      //  new Trigger(m_driverController::getLeftBumper).onTrue(Commands.runOnce(() -> setDriveTypek(true)));
-       // new Trigger(m_driverController::getRightBumper).onTrue(Commands.runOnce(() -> setDriveTypek(false)));
+        // new Trigger(m_driverController::getLeftBumper).onTrue(Commands.runOnce(() ->
+        // setDriveTypek(true)));
+        // new Trigger(m_driverController::getRightBumper).onTrue(Commands.runOnce(() ->
+        // setDriveTypek(false)));
         // Setting up operator controls
         new Trigger(m_operatorController::getRightBumper).whileTrue(PickupUp);
         new Trigger(m_operatorController::getLeftBumper).whileTrue(PickupDown);
@@ -173,6 +173,9 @@ public class RobotContainer {
     }
 
     public boolean isRobotAligned() {
+        if (should_autoFire == true) {
+            // Add logic for a quick fire here
+        }
         return m_limelight.isAligned();
     }
 
@@ -208,7 +211,6 @@ public class RobotContainer {
         return m_limelight.getTargetDistance() * -1;
     }
 
-
     public void updateDrive() {
         if (Globals.GlobalVars.shouldYawReset == true) {
             m_robotDrive.setDriveType();
@@ -220,6 +222,7 @@ public class RobotContainer {
     public boolean getArmDown() {
         return m_intake.isArmDown() == true ? true : false;
     }
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -228,6 +231,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         driveType.setType(drive_chooser.getSelected());
+        should_autoFire = triggerBot_chooser.getSelected();
         return m_chooser.getSelected();
     }
 }

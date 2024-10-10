@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.Constants;
-import frc.robot.mathHelpers.Trigonometry;
 
 public class ComputerAlign extends Command {
     private final VisionSubsystem m_visionSubsystem;
@@ -24,19 +23,15 @@ public class ComputerAlign extends Command {
     // Computer Assisted Semi-Alignment System (C.A.S.S)
 
     public void alignSide() {
-        if (m_visionSubsystem.isTargetValid()) {
-            double tx = m_visionSubsystem.getTX();
-            double kP = 0.05; // Proportional constant for side alignment
-            double error = tx;
+        double tx = m_visionSubsystem.getTX();
+        double kP = 0.05; // Proportional constant for side alignment
+        double error = tx;
 
-            if (Math.abs(error) > 3) { // Threshold in degrees
-                // Adjust velocity based on error
-                velocity_Y = -kP * error;
-                // Limit maximum speed
-                velocity_Y = Math.max(Math.min(velocity_Y, 0.3), -0.3);
-            } else {
-                velocity_Y = 0;
-            }
+        if (Math.abs(error) > 3) { // Threshold in degrees
+            // Adjust velocity based on error
+            velocity_Y = -kP * error;
+            // Limit maximum speed
+            velocity_Y = Math.max(Math.min(velocity_Y, 0.3), -0.3);
         } else {
             velocity_Y = 0;
         }
@@ -143,12 +138,18 @@ public class ComputerAlign extends Command {
             m_drivetrainSubsystem.drive(velocity_X, velocity_Y, velocity_R, false, false);
         } else {
             // Stop the robot if the target is not valid
+            velocity_R = 0;
+            velocity_X = 0;
+            velocity_Y = 0;
             m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
+        velocity_R = 0;
+        velocity_X = 0;
+        velocity_Y = 0;
         // Stop the robot when the command ends
         m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
     }
