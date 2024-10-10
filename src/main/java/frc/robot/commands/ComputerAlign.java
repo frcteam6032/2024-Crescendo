@@ -4,8 +4,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.Constants;
+import frc.robot.Logging.Logger;
 
 public class ComputerAlign extends Command {
+
+    Logger logger = new Logger();
+
     private final VisionSubsystem m_visionSubsystem;
     private final DriveSubsystem m_drivetrainSubsystem;
 
@@ -135,7 +139,8 @@ public class ComputerAlign extends Command {
             alignSide();
             alignDistance(m_visionSubsystem.getTargetID());
             alignYaw(m_drivetrainSubsystem.getHeading());
-            m_drivetrainSubsystem.drive(velocity_X, velocity_Y, velocity_R, false, false);
+            // m_drivetrainSubsystem.drive(velocity_X, velocity_Y, velocity_R, false,
+            // false);
         } else {
             // Stop the robot if the target is not valid
             velocity_R = 0;
@@ -143,6 +148,13 @@ public class ComputerAlign extends Command {
             velocity_Y = 0;
             m_drivetrainSubsystem.drive(0.0, 0.0, 0.0, false, false);
         }
+        logger.info("Correcting YAW with rotational velocity [%.1f] ",
+                velocity_R);
+        logger.info("Correcting side with velocity [%.1f]",
+                velocity_Y);
+        logger.info("Aligning Depth with velocity [%.1f]",
+                velocity_X);
+
     }
 
     @Override

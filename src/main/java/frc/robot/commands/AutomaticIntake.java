@@ -56,14 +56,14 @@ public class AutomaticIntake extends Command {
         if (m_intakeSubsystem.hasRing() == true) {
 
             if (m_intakeSubsystem.getAngle() > Constants.ArmConstants.min_limit) {
-                logger.info("The arm angle is [%.1f] degrees moving [backwards] [Full Speed] [Computer Controlled]",
+                logger.info("The arm angle is [%.1f] degrees moving (backwards) (Full Speed) (Computer Controlled)",
                         m_intakeSubsystem.getAngle());
 
                 // If the arm is near the min limit, reduce the speed
                 if (m_intakeSubsystem.getAngle() <= Constants.ArmConstants.min_limit + 30) {
                     // Arm is close to min limit
                     logger.info(
-                            "The arm angle is [%.1f] degrees moving [backwards] [Reduced Speed] [Computer Controlled]",
+                            "The arm angle is [%.1f] degrees moving (backwards) (Reduced Speed) (Computer Controlled)",
                             m_intakeSubsystem.getAngle());
                     m_intakeSubsystem.set_speed(-0.1 * 3);
                     m_intakeSubsystem.set_speed(-0.1 * 3);
@@ -75,14 +75,14 @@ public class AutomaticIntake extends Command {
                 }
             } else {
                 // Added this else - min limit wasn't working with Note load back button
-                logger.info("The arm angle is [%.1f] degrees moving [NONE] [NO SPEED] [Computer Controlled]",
+                logger.info("The arm angle is [%.1f] degrees moving (NONE) (NO SPEED) (Computer Controlled)",
                         m_intakeSubsystem.getAngle());
                 m_intakeSubsystem.set_speed(0);
                 m_intakeSubsystem.set_speed(0);
             }
 
         } else {
-            logger.info("The arm angle is [%.1f] degrees moving [NONE] [NO SPEED] [Computer Controlled]",
+            logger.info("The arm angle is [%.1f] degrees moving (NONE) (NO SPEED) (Computer Controlled)",
                     m_intakeSubsystem.getAngle());
             m_intakeSubsystem.set_speed(0);
             m_intakeSubsystem.set_speed(0);
